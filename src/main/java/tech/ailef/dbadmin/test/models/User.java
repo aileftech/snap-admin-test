@@ -1,0 +1,72 @@
+package tech.ailef.dbadmin.test.models;
+
+import java.util.List;
+
+import org.hibernate.annotations.UuidGenerator;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+import tech.ailef.dbadmin.annotations.ComputedColumn;
+import tech.ailef.dbadmin.annotations.DisplayName;
+
+@Entity
+@Table(name="users")
+public class User {
+	@Id
+	@UuidGenerator
+	private String id;
+	
+	private String name;
+	
+	@OneToOne
+	private Cart cart;
+	
+	@OneToMany(mappedBy = "user")
+	private List<Order> orders;
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	@DisplayName
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Cart getCart() {
+		return cart;
+	}
+
+	public void setCart(Cart cart) {
+		this.cart = cart;
+	}
+	
+	public List<Order> getOrders() {
+		return orders;
+	}
+	
+	public void setOrders(List<Order> orders) {
+		this.orders = orders;
+	}
+	
+	@ComputedColumn
+	public double totalSpent() {
+		double total = 0;
+		for (Order o : orders) {
+			total += o.total();
+		}
+		return total;
+	}
+	
+}
