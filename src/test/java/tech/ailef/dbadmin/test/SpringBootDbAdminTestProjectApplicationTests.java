@@ -1,6 +1,7 @@
 package tech.ailef.dbadmin.test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
@@ -13,6 +14,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -222,10 +224,19 @@ class SpringBootDbAdminTestProjectApplicationTests {
 	}
 	
 	@Test
-	void testSelenium() {
-//		ChromeDriver driver = new ChromeDriver();
-//		driver.get("http://localhost:8080/dbadmin/");
-//		assertEquals(200, 200);
+	void testSelenium() throws InterruptedException {
+		ChromeDriver driver = new ChromeDriver();
+		driver.get("http://localhost:8080/dbadmin");
+		
+		for (String klass : CLASSES) {
+			String createUrl = BASE_HOST + "/dbadmin/model/" + BASE_PACKAGE +  "." + klass + "/create";
+			logger.info("Testing empty create for " + createUrl);
+			driver.get(createUrl);
+			driver.findElement(By.cssSelector("input[type=\"submit\"]")).click();
+			
+			assertFalse(driver.findElement(By.tagName("body")).getText().contains("Whitelabel Error Page"));
+			
+		}
 	}
 	
 }
