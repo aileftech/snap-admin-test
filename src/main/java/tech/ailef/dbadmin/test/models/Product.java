@@ -1,8 +1,10 @@
 package tech.ailef.dbadmin.test.models;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,6 +15,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import tech.ailef.dbadmin.annotations.DisplayFormat;
 import tech.ailef.dbadmin.annotations.DisplayName;
+import tech.ailef.dbadmin.annotations.Filterable;
 
 @Entity
 @Table(name="products")
@@ -21,17 +24,29 @@ public class Product {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@Filterable
 	private String name;
 	
+	@Filterable
 	private String description;
 	
 	@DisplayFormat(format = "$%.2f")
+	@Filterable
 	private Double price;
 	
+	@Filterable
+	private LocalDateTime createdAt;
+	
 	@Lob
+	@Column(length = 1048576*4)
 	private byte[] image;
 	
+	@Column(columnDefinition = "boolean default false")
+	@Filterable
+	private Boolean ecoFriendly;
+	
 	@ManyToMany(mappedBy = "products")
+	@Filterable
 	private List<Category> categories;
 	
 	@ManyToMany(mappedBy = "starredProducts")
@@ -118,6 +133,22 @@ public class Product {
 	
 	public void setTags(List<Tag> tags) {
 		this.tags = tags;
+	}
+	
+	public Boolean isEcoFriendly() {
+		return ecoFriendly;
+	}
+	
+	public void setEcoFriendly(boolean ecoFriendly) {
+		this.ecoFriendly = ecoFriendly;
+	}
+	
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
+	
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
 	}
 	
 	@Override

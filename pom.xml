@@ -11,7 +11,7 @@
 	</parent>
 	<groupId>tech.ailef</groupId>
 	<artifactId>spring-boot-db-admin-test-project</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2</version>
 	<name>spring-boot-db-admin-test-project</name>
 	<description>Srping Boot DB Admin Dashboard</description>
 	<properties>
@@ -24,6 +24,13 @@
 			<artifactId>jsoup</artifactId>
 			<version>1.16.1</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.mysql/mysql-connector-j -->
+		<dependency>
+			<groupId>com.mysql</groupId>
+			<artifactId>mysql-connector-j</artifactId>
+			<version>8.1.0</version>
+		</dependency>
+
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -55,7 +62,7 @@
 		<dependency>
 			<groupId>tech.ailef</groupId>
 			<artifactId>spring-boot-db-admin</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.2</version>
 		</dependency>
 	</dependencies>
 

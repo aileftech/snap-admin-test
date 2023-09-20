@@ -9,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import tech.ailef.dbadmin.annotations.Filterable;
 
 @Entity
 public class Cart {
@@ -20,6 +21,7 @@ public class Cart {
 	private List<CartItem> items;
 	
 	@OneToOne(mappedBy = "cart")
+	@Filterable
 	private User owner;
 
 	public Long getId() {

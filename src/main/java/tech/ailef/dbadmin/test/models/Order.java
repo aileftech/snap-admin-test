@@ -10,6 +10,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import tech.ailef.dbadmin.annotations.ComputedColumn;
 import tech.ailef.dbadmin.annotations.DisplayFormat;
+import tech.ailef.dbadmin.annotations.Filterable;
 
 @Entity
 @Table(name="orders")
@@ -18,11 +19,13 @@ public class Order {
 	private Long id;
 	
 	@ManyToOne
+	@Filterable
 	private User user;
 	
 	@OneToMany(mappedBy = "order")
 	private List<OrderLine> lines;
 	
+	@Filterable
 	private LocalDate createdAt;
 
 	public Long getId() {

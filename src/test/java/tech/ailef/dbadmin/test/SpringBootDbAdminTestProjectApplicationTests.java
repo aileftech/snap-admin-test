@@ -52,149 +52,152 @@ class SpringBootDbAdminTestProjectApplicationTests {
 	 * This checks a list of hardcoded pages of different types (list, show, create, etc...)
 	 * in order to see if they all reply with 200 OK. This will NOT check the actual content
 	 * of the page for correctness.
+	 * @throws IOException 
 	 */
 	@Test
-	void basicHttpOkResponse() {
+	void basicHttpOkResponse() throws IOException {
 		logger.info("Testing 200 OK response");
-		try {
-			for (String klass : CLASSES) {
-				String path = BASE_PACKAGE + "." + klass;
+		for (String klass : CLASSES) {
+			String path = BASE_PACKAGE + "." + klass;
 
-				// Index page
-				Response resp = Jsoup.connect(BASE_HOST + "/dbadmin/model/" + path).execute();
-				assertEquals(200, resp.statusCode());
-				
-				// Schema page
-				resp = Jsoup.connect(BASE_HOST + "/dbadmin/model/" + path + "/schema").execute();
-				assertEquals(200, resp.statusCode());
-				
-				// Create page
-				resp = Jsoup.connect(BASE_HOST + "/dbadmin/model/" + path + "/create").execute();
-				assertEquals(200, resp.statusCode());
-			}
+			// Index page
+			Response resp = Jsoup.connect(BASE_HOST + "/dbadmin/model/" + path).execute();
+			assertEquals(200, resp.statusCode());
 			
-			for (String url : TEST_200_OK_URLS) {
-				Response resp = Jsoup.connect(url).execute();
-				assertEquals(200, resp.statusCode());
-			}
+			// Schema page
+			resp = Jsoup.connect(BASE_HOST + "/dbadmin/model/" + path + "/schema").execute();
+			assertEquals(200, resp.statusCode());
 			
-		} catch (IOException e) {
-			throw new RuntimeException(e);
+			// Create page
+			resp = Jsoup.connect(BASE_HOST + "/dbadmin/model/" + path + "/create").execute();
+			assertEquals(200, resp.statusCode());
 		}
-	}
-	
-	@Test
-	void testShowPage() {
-		logger.info("Testing show page");
-		try {
-			Response resp = Jsoup.connect(BASE_HOST + "/dbadmin/model/tech.ailef.dbadmin.test.models.Product/show/1").execute();
-			String content = resp.body();
-			Document document = Jsoup.parse(content);
-			
-			// Test title
-			String titleText = document.selectFirst("h1").text();
-			assertTrue(titleText.endsWith("iPhone 12 $699.99"));
-
-			// Test rows of the show table
-			Element e1 = document.selectFirst("table.show-table tr:nth-child(5) td:nth-child(2)");
-			assertEquals("name", e1.text());
-			Element e2 = document.selectFirst("table.show-table tr:nth-child(5) td:nth-child(3)");
-			assertEquals("iPhone 12", e2.text());
-			Element e3 = document.selectFirst("table.show-table tr:nth-child(5) td:nth-child(4)");
-			assertEquals("STRING", e3.text());
-			Element e4 = document.selectFirst("table.show-table tr:nth-child(6) td:nth-child(2)");
-			assertEquals("price", e4.text());
-			Element e5 = document.selectFirst("table.show-table tr:nth-child(6) td:nth-child(3)");
-			assertEquals("$699.99", e5.text());
-			Element e6 = document.selectFirst("table.show-table tr:nth-child(6) td:nth-child(4)");
-			assertEquals("DOUBLE", e6.text());
-			
-			// Test the one to many table
-			Element secondTable = document.select("table").get(2);
-			Elements cols = secondTable.select("td");
-			assertEquals("58", cols.get(0).text());
-			assertEquals("42 42", cols.get(1).text());
-			assertEquals("578.89", cols.get(2).text());
-			assertEquals("1 iPhone 12 $699.99", cols.get(3).text());
-			assertEquals("1", cols.get(4).text());
-			
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-	}
-	
-	
-	@Test
-	void testListPage() {
-		try {
-			Response resp = 
-				Jsoup.connect(BASE_HOST + "/dbadmin/model/tech.ailef.dbadmin.test.models.User").execute();
 		
-			Document document = Jsoup.parse(resp.body());
-			Element table = document.selectFirst("table");
-			Elements rows = table.select("tr");
-			
-			Elements cols = rows.get(0).select("th");
-			assertEquals("id STRING", cols.get(1).text());
-			assertEquals("cart_id LONG", cols.get(2).text());
-			assertEquals("name STRING", cols.get(3).text());
-			assertEquals("total_spent COMPUTED", cols.get(4).text());
-			
-			cols = rows.get(1).select("td");
-			assertEquals("d7558967-c177-40f1-8360-25c7806329df", cols.get(1).text());
-			assertEquals("1 1", cols.get(2).text());
-			assertEquals("Benjamin Mitchell", cols.get(3).text());
-			assertEquals("40520.5", cols.get(4).text());
-			
-		} catch (IOException e) {
-			throw new RuntimeException(e);
+		for (String url : TEST_200_OK_URLS) {
+			Response resp = Jsoup.connect(url).execute();
+			assertEquals(200, resp.statusCode());
 		}
 	}
 	
 	@Test
-	void testEditPage() {
-		try {
-			Document document = 
-				Jsoup.parse(
-					Jsoup.connect(BASE_HOST + "/dbadmin/model/tech.ailef.dbadmin.test.models.User/edit/3ccff81d-9f57-44b4-b414-5dc8bed05a28")
-					     .execute().body()
-				);
-			
-			String id = document.selectFirst("input[name=\"id\"]").val();
-			assertEquals("3ccff81d-9f57-44b4-b414-5dc8bed05a28", id);
-			
-			String cartId = document.selectFirst("input[name=\"cart_id\"]").val();
-			assertEquals("2", cartId);
-			
-			String name = document.selectFirst("input[name=\"name\"]").val();
-			assertEquals("Ethan Anderson", name);
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
+	void testShowPage() throws IOException {
+		logger.info("Testing show page");
+		Response resp = Jsoup.connect(BASE_HOST + "/dbadmin/model/tech.ailef.dbadmin.test.models.Product/show/1").execute();
+		String content = resp.body();
+		Document document = Jsoup.parse(content);
+		
+		// Test title
+		String titleText = document.selectFirst("h1").text();
+		assertTrue(titleText.endsWith("iPhone 12 $699.99"));
+
+		// Test rows of the show table
+		Element e1 = document.selectFirst("table.show-table tr:nth-child(7) td:nth-child(2)");
+		assertEquals("name", e1.text());
+		Element e2 = document.selectFirst("table.show-table tr:nth-child(7) td:nth-child(3)");
+		assertEquals("iPhone 12", e2.text());
+		Element e3 = document.selectFirst("table.show-table tr:nth-child(7) td:nth-child(4)");
+		assertEquals("STRING", e3.text());
+		Element e4 = document.selectFirst("table.show-table tr:nth-child(8) td:nth-child(2)");
+		assertEquals("price", e4.text());
+		Element e5 = document.selectFirst("table.show-table tr:nth-child(8) td:nth-child(3)");
+		assertEquals("$699.99", e5.text());
+		Element e6 = document.selectFirst("table.show-table tr:nth-child(8) td:nth-child(4)");
+		assertEquals("DOUBLE", e6.text());
+		
+		// Test the one to many table
+		Element secondTable = document.select("table").get(2);
+		Elements cols = secondTable.select("td");
+		assertEquals("58", cols.get(0).text());
+		assertEquals("42 42", cols.get(1).text());
+		assertEquals("578.89", cols.get(2).text());
+		assertEquals("1 iPhone 12 $699.99", cols.get(3).text());
+		assertEquals("1", cols.get(4).text());
+	}
+	
+	
+	@Test
+	void testListPage() throws IOException {
+		Response resp = 
+			Jsoup.connect(BASE_HOST + "/dbadmin/model/tech.ailef.dbadmin.test.models.User?sortKey=id&sortOrder=DESC").execute();
+	
+		Document document = Jsoup.parse(resp.body());
+		Element table = document.selectFirst("table");
+		Elements rows = table.select("tr");
+		
+		Elements cols = rows.get(0).select("th");
+		assertEquals("id STRING", cols.get(1).text());
+		assertEquals("cart_id LONG", cols.get(2).text());
+		assertEquals("name STRING", cols.get(3).text());
+		assertEquals("total_spent COMPUTED", cols.get(4).text());
+		
+		cols = rows.get(1).select("td");
+		assertEquals("ffd5500e-1231-48e2-8384-3dc15fc7ed90", cols.get(1).text());
+		assertEquals("5 5", cols.get(2).text());
+		assertEquals("Oliver Williams", cols.get(3).text());
+		assertEquals("46989.02999999999", cols.get(4).text());
+	}
+	
+	@Test
+	void testEditPage() throws IOException {
+		Document document = 
+			Jsoup.parse(
+				Jsoup.connect(BASE_HOST + "/dbadmin/model/tech.ailef.dbadmin.test.models.User/edit/3ccff81d-9f57-44b4-b414-5dc8bed05a28")
+				     .execute().body()
+			);
+		
+		String id = document.selectFirst("input[name=\"id\"]").val();
+		assertEquals("3ccff81d-9f57-44b4-b414-5dc8bed05a28", id);
+		
+		String cartId = document.selectFirst("input[name=\"cart_id\"]").val();
+		assertEquals("2", cartId);
+		
+		String name = document.selectFirst("input[name=\"name\"]").val();
+		assertEquals("Ethan Anderson", name);
 	}
 	
 	/**
 	 * Tests the download controller. It downloads the binary blob associated
 	 * to the Product with id 1 and checks if the downloaded content is correct.
+	 * @throws IOException 
 	 */
 	@Test
-	void testDownload() {
+	void testDownload() throws IOException {
 		String loremIpsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor "
 				+ "incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation"
 				+ " ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit"
 				+ " in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat"
 				+ " cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
 		
-		try {
-			String body = 
-				Jsoup.connect(BASE_HOST + "/dbadmin/download/tech.ailef.dbadmin.test.models.Product/image/1")
-					 .execute().body();
-			assertEquals(body.trim(), loremIpsum);
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
+		String body = 
+			Jsoup.connect(BASE_HOST + "/dbadmin/download/tech.ailef.dbadmin.test.models.Product/image/1")
+				 .execute().body();
+		assertEquals(body.trim(), loremIpsum);
 	}
 	
+	@Test
+	void testFacetedSearch() throws IOException {
+		Document document = Jsoup.parse(
+			Jsoup.connect("http://localhost:8080/dbadmin/model/tech.ailef.dbadmin.test.models.Product?"
+					+ "page=1&pageSize=50&query=&filter_field=description&filter_op=contains&filter_value=128")
+				.execute().body()
+		);
+		
+		Elements filters = document.select("span.active-filter");
+		assertEquals(1, filters.size());
+		assertEquals("'description' Contains '128'", filters.get(0).text());
+		
+		// Test url with remove filter parameters
+		document = Jsoup.parse(
+			Jsoup.connect("http://localhost:8080/dbadmin/model/tech.ailef.dbadmin.test.models.Product?"
+				+ "page=1&pageSize=50&query=&filter_field=description&filter_op=contains&filter_value=128&"
+				+ "remove_field=description&remove_op=contains&remove_value=128")
+				.execute().body()
+		);
+		filters = document.select("span.active-filter");
+		assertEquals(0, filters.size());
+		
+			
+	}
 	
 }
 
