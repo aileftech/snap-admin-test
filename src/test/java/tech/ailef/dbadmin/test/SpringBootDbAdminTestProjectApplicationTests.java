@@ -7,11 +7,13 @@ import java.io.IOException;
 import java.util.logging.Logger;
 
 import org.jsoup.Connection.Response;
+import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
@@ -107,11 +109,11 @@ class SpringBootDbAdminTestProjectApplicationTests {
 		// Test the one to many table
 		Element secondTable = document.select("table").get(2);
 		Elements cols = secondTable.select("td");
-		assertEquals("58", cols.get(0).text());
-		assertEquals("42 42", cols.get(1).text());
-		assertEquals("578.89", cols.get(2).text());
-		assertEquals("1 iPhone 12 $699.99", cols.get(3).text());
-		assertEquals("1", cols.get(4).text());
+		assertEquals("58", cols.get(1).text());
+		assertEquals("42 42", cols.get(2).text());
+		assertEquals("578.89", cols.get(3).text());
+		assertEquals("1 iPhone 12 $699.99", cols.get(4).text());
+		assertEquals("1", cols.get(5).text());
 	}
 	
 	
@@ -125,16 +127,16 @@ class SpringBootDbAdminTestProjectApplicationTests {
 		Elements rows = table.select("tr");
 		
 		Elements cols = rows.get(0).select("th");
-		assertEquals("id STRING", cols.get(1).text());
-		assertEquals("cart_id LONG", cols.get(2).text());
-		assertEquals("name STRING", cols.get(3).text());
-		assertEquals("total_spent COMPUTED", cols.get(4).text());
+		assertEquals("id STRING", cols.get(2).text());
+		assertEquals("cart_id LONG", cols.get(3).text());
+		assertEquals("name STRING", cols.get(4).text());
+		assertEquals("total_spent COMPUTED", cols.get(5).text());
 		
 		cols = rows.get(1).select("td");
-		assertEquals("ffd5500e-1231-48e2-8384-3dc15fc7ed90", cols.get(1).text());
-		assertEquals("5 5", cols.get(2).text());
-		assertEquals("Oliver Williams", cols.get(3).text());
-		assertEquals("46989.02999999999", cols.get(4).text());
+		assertEquals("ffd5500e-1231-48e2-8384-3dc15fc7ed90", cols.get(2).text());
+		assertEquals("5 5", cols.get(3).text());
+		assertEquals("Oliver Williams", cols.get(4).text());
+		assertEquals("46989.02999999999", cols.get(5).text());
 	}
 	
 	@Test
@@ -169,9 +171,29 @@ class SpringBootDbAdminTestProjectApplicationTests {
 				+ " cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
 		
 		String body = 
-			Jsoup.connect(BASE_HOST + "/dbadmin/download/tech.ailef.dbadmin.test.models.Product/image/1")
+			Jsoup.connect(BASE_HOST + "/dbadmin/download/tech.ailef.dbadmin.test.models.Product/thumbnailImage/1")
 				 .execute().body();
 		assertEquals(body.trim(), loremIpsum);
+		
+		// Test 404 with wrong ID
+		try {
+			body = 
+				Jsoup.connect(BASE_HOST + "/dbadmin/download/tech.ailef.dbadmin.test.models.Product/thumbnailImage/3")
+					 .execute().body();
+			throw new RuntimeException("Request should've generated 404 error");
+		} catch (HttpStatusException e) {
+			assertEquals(404, e.getStatusCode());
+		}
+		
+		// Test 404 with wrong field name
+		try {
+			body = 
+				Jsoup.connect(BASE_HOST + "/dbadmin/download/tech.ailef.dbadmin.test.models.Product/missingField/3")
+					 .execute().body();
+		} catch (HttpStatusException e) {
+			assertEquals(404, e.getStatusCode());
+		}
+		
 	}
 	
 	@Test
@@ -197,6 +219,13 @@ class SpringBootDbAdminTestProjectApplicationTests {
 		assertEquals(0, filters.size());
 		
 			
+	}
+	
+	@Test
+	void testSelenium() {
+//		ChromeDriver driver = new ChromeDriver();
+//		driver.get("http://localhost:8080/dbadmin/");
+//		assertEquals(200, 200);
 	}
 	
 }

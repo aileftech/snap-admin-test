@@ -14,6 +14,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import tech.ailef.dbadmin.annotations.DisplayFormat;
+import tech.ailef.dbadmin.annotations.DisplayImage;
 import tech.ailef.dbadmin.annotations.DisplayName;
 import tech.ailef.dbadmin.annotations.Filterable;
 
@@ -38,8 +39,13 @@ public class Product {
 	private LocalDateTime createdAt;
 	
 	@Lob
+	@DisplayImage
 	@Column(length = 1048576*4)
 	private byte[] image;
+	
+	@Lob
+	@Column(length = 1048576*4)
+	private byte[] thumbnailImage;
 	
 	@Column(columnDefinition = "boolean default false")
 	@Filterable
@@ -151,10 +157,19 @@ public class Product {
 		this.createdAt = createdAt;
 	}
 	
+	public byte[] getThumbnailImage() {
+		return thumbnailImage;
+	}
+	
+	public void setThumbnailImage(byte[] thumbnailImage) {
+		this.thumbnailImage = thumbnailImage;
+	}
+	
+	
 	@Override
 	public String toString() {
 		return "Product [id=" + id + ", name=" + name + ", description=" + description + ", price=" + price + ", image="
-				+ Arrays.toString(image) + ", categories=" + categories + ", orderLines=" + orderLines + "]";
+				+ Arrays.toString(thumbnailImage) + ", categories=" + categories + ", orderLines=" + orderLines + "]";
 	}
 	
 }
