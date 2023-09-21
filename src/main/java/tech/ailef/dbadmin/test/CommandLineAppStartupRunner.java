@@ -39,6 +39,7 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
 		return USER_IDS[random.nextInt(USER_IDS.length)];
 	}
 
+	@SuppressWarnings("unused")
 	private void populateDb() {
 	   	int numOrders = 500;
 	   	int startOrderLineId = 500;
@@ -63,7 +64,6 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
 	
     @Override
     public void run(String...args) throws Exception {
-//    	new DbAdminInitializer("tech.ailef.dbadmin.test.models").init();
 //    	populateDb();
     }
 }

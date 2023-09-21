@@ -5,7 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import org.jsoup.Connection.Response;
 import org.jsoup.HttpStatusException;
@@ -15,6 +17,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -225,9 +228,50 @@ class SpringBootDbAdminTestProjectApplicationTests {
 		
 			
 	}
+
+	@Test
+	void testLinks() throws InterruptedException, IOException {
+		ChromeDriver driver = new ChromeDriver();
+		
+		// Test links in list page
+		for (String klass : CLASSES) {
+			driver.get(BASE_HOST + "/model/tech.ailef.dbadmin.test.models." + klass);
+			List<WebElement> links = driver.findElements(By.tagName("a"));
+			List<String> urls = links.stream().map(l -> l.getAttribute("href")).collect(Collectors.toList());
+	
+			for (String url : urls) {
+				logger.info("Testing link URL (from list page): " + url);
+				driver.get(url);
+				assertFalse(driver.findElement(By.tagName("body")).getText().contains("Whitelabel Error Page"));
+			}
+		
+		}
+		
+		
+		// Test links in show page
+		for (String klass : CLASSES) {
+			String testId = klass.equals("User") ? "24e137ba-d5b5-4ca7-aad1-5359463e0a53" : "1";
+			String editUrl = BASE_HOST + "/model/" + BASE_PACKAGE +  "." + klass + "/show/" + testId;
+			
+			driver.get(editUrl);
+			List<WebElement> links = driver.findElements(By.tagName("a"));
+			List<String> urls = links.stream().map(l -> l.getAttribute("href")).collect(Collectors.toList());
+	
+			for (String url : urls) {
+				logger.info("Testing link URL (from show page): " + url);
+				driver.get(url);
+				assertFalse(driver.findElement(By.tagName("body")).getText().contains("Whitelabel Error Page"));
+			}
+	
+		}
+		
+		
+	}
+
+
 	
 	@Test
-	void testSelenium() throws InterruptedException, IOException {
+	void testCreateEdit() throws InterruptedException, IOException {
 		ChromeDriver driver = new ChromeDriver();
 
 		driver.get(BASE_HOST);
