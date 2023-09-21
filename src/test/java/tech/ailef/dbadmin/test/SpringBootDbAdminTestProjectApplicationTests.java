@@ -25,8 +25,10 @@ class SpringBootDbAdminTestProjectApplicationTests {
 
 	private final Logger logger = Logger.getLogger(getClass().getName());
 	
-	private final String BASE_HOST = "http://localhost:8080";
-
+	private final String BASE_URL = "/admin";
+	
+	private final String BASE_HOST = "http://localhost:8080" + BASE_URL;
+	
 	private final String[] CLASSES = {
 		"Cart",
 		"CartItem",
@@ -39,13 +41,13 @@ class SpringBootDbAdminTestProjectApplicationTests {
 	};
 	
 	private final String[] TEST_200_OK_URLS = {
-		BASE_HOST + "/dbadmin/model/tech.ailef.dbadmin.test.models.Cart/show/1",
-		BASE_HOST + "/dbadmin/model/tech.ailef.dbadmin.test.models.Product/show/1",
-		BASE_HOST + "/dbadmin/model/tech.ailef.dbadmin.test.models.Order/show/42",
-		BASE_HOST + "/dbadmin/model/tech.ailef.dbadmin.test.models.User/show/3ccff81d-9f57-44b4-b414-5dc8bed05a28",
-		BASE_HOST + "/dbadmin/model/tech.ailef.dbadmin.test.models.Product?query=apple",
-		BASE_HOST + "/dbadmin/model/tech.ailef.dbadmin.test.models.Product?query=apple&page=3",
-		BASE_HOST + "/dbadmin/model/tech.ailef.dbadmin.test.models.Order?query=d7"
+		BASE_HOST + "/model/tech.ailef.dbadmin.test.models.Cart/show/1",
+		BASE_HOST + "/model/tech.ailef.dbadmin.test.models.Product/show/1",
+		BASE_HOST + "/model/tech.ailef.dbadmin.test.models.Order/show/42",
+		BASE_HOST + "/model/tech.ailef.dbadmin.test.models.User/show/3ccff81d-9f57-44b4-b414-5dc8bed05a28",
+		BASE_HOST + "/model/tech.ailef.dbadmin.test.models.Product?query=apple",
+		BASE_HOST + "/model/tech.ailef.dbadmin.test.models.Product?query=apple&page=3",
+		BASE_HOST + "/model/tech.ailef.dbadmin.test.models.Order?query=d7"
 	};
 
 	@Test
@@ -65,19 +67,20 @@ class SpringBootDbAdminTestProjectApplicationTests {
 			String path = BASE_PACKAGE + "." + klass;
 
 			// Index page
-			Response resp = Jsoup.connect(BASE_HOST + "/dbadmin/model/" + path).execute();
+			Response resp = Jsoup.connect(BASE_HOST + "/model/" + path).execute();
 			assertEquals(200, resp.statusCode());
 			
 			// Schema page
-			resp = Jsoup.connect(BASE_HOST + "/dbadmin/model/" + path + "/schema").execute();
+			resp = Jsoup.connect(BASE_HOST + "/model/" + path + "/schema").execute();
 			assertEquals(200, resp.statusCode());
 			
 			// Create page
-			resp = Jsoup.connect(BASE_HOST + "/dbadmin/model/" + path + "/create").execute();
+			resp = Jsoup.connect(BASE_HOST + "/model/" + path + "/create").execute();
 			assertEquals(200, resp.statusCode());
 		}
 		
 		for (String url : TEST_200_OK_URLS) {
+			logger.info("Testing 200 OK for " + url);
 			Response resp = Jsoup.connect(url).execute();
 			assertEquals(200, resp.statusCode());
 		}
@@ -86,7 +89,7 @@ class SpringBootDbAdminTestProjectApplicationTests {
 	@Test
 	void testShowPage() throws IOException {
 		logger.info("Testing show page");
-		Response resp = Jsoup.connect(BASE_HOST + "/dbadmin/model/tech.ailef.dbadmin.test.models.Product/show/1").execute();
+		Response resp = Jsoup.connect(BASE_HOST + "/model/tech.ailef.dbadmin.test.models.Product/show/1").execute();
 		String content = resp.body();
 		Document document = Jsoup.parse(content);
 		
@@ -122,7 +125,7 @@ class SpringBootDbAdminTestProjectApplicationTests {
 	@Test
 	void testListPage() throws IOException {
 		Response resp = 
-			Jsoup.connect(BASE_HOST + "/dbadmin/model/tech.ailef.dbadmin.test.models.User?sortKey=id&sortOrder=DESC").execute();
+			Jsoup.connect(BASE_HOST + "/model/tech.ailef.dbadmin.test.models.User?sortKey=id&sortOrder=DESC").execute();
 	
 		Document document = Jsoup.parse(resp.body());
 		Element table = document.selectFirst("table");
@@ -145,7 +148,7 @@ class SpringBootDbAdminTestProjectApplicationTests {
 	void testEditPage() throws IOException {
 		Document document = 
 			Jsoup.parse(
-				Jsoup.connect(BASE_HOST + "/dbadmin/model/tech.ailef.dbadmin.test.models.User/edit/3ccff81d-9f57-44b4-b414-5dc8bed05a28")
+				Jsoup.connect(BASE_HOST + "/model/tech.ailef.dbadmin.test.models.User/edit/3ccff81d-9f57-44b4-b414-5dc8bed05a28")
 				     .execute().body()
 			);
 		
@@ -173,14 +176,14 @@ class SpringBootDbAdminTestProjectApplicationTests {
 				+ " cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
 		
 		String body = 
-			Jsoup.connect(BASE_HOST + "/dbadmin/download/tech.ailef.dbadmin.test.models.Product/thumbnailImage/1")
+			Jsoup.connect(BASE_HOST + "/download/tech.ailef.dbadmin.test.models.Product/thumbnailImage/1")
 				 .execute().body();
 		assertEquals(body.trim(), loremIpsum);
 		
 		// Test 404 with wrong ID
 		try {
 			body = 
-				Jsoup.connect(BASE_HOST + "/dbadmin/download/tech.ailef.dbadmin.test.models.Product/thumbnailImage/3")
+				Jsoup.connect(BASE_HOST + "/download/tech.ailef.dbadmin.test.models.Product/thumbnailImage/3")
 					 .execute().body();
 			throw new RuntimeException("Request should've generated 404 error");
 		} catch (HttpStatusException e) {
@@ -190,7 +193,7 @@ class SpringBootDbAdminTestProjectApplicationTests {
 		// Test 404 with wrong field name
 		try {
 			body = 
-				Jsoup.connect(BASE_HOST + "/dbadmin/download/tech.ailef.dbadmin.test.models.Product/missingField/3")
+				Jsoup.connect(BASE_HOST + "/download/tech.ailef.dbadmin.test.models.Product/missingField/3")
 					 .execute().body();
 		} catch (HttpStatusException e) {
 			assertEquals(404, e.getStatusCode());
@@ -201,7 +204,7 @@ class SpringBootDbAdminTestProjectApplicationTests {
 	@Test
 	void testFacetedSearch() throws IOException {
 		Document document = Jsoup.parse(
-			Jsoup.connect("http://localhost:8080/dbadmin/model/tech.ailef.dbadmin.test.models.Product?"
+			Jsoup.connect(BASE_HOST + "/model/tech.ailef.dbadmin.test.models.Product?"
 					+ "page=1&pageSize=50&query=&filter_field=description&filter_op=contains&filter_value=128")
 				.execute().body()
 		);
@@ -212,7 +215,7 @@ class SpringBootDbAdminTestProjectApplicationTests {
 		
 		// Test url with remove filter parameters
 		document = Jsoup.parse(
-			Jsoup.connect("http://localhost:8080/dbadmin/model/tech.ailef.dbadmin.test.models.Product?"
+			Jsoup.connect(BASE_HOST + "/model/tech.ailef.dbadmin.test.models.Product?"
 				+ "page=1&pageSize=50&query=&filter_field=description&filter_op=contains&filter_value=128&"
 				+ "remove_field=description&remove_op=contains&remove_value=128")
 				.execute().body()
@@ -227,10 +230,10 @@ class SpringBootDbAdminTestProjectApplicationTests {
 	void testSelenium() throws InterruptedException, IOException {
 		ChromeDriver driver = new ChromeDriver();
 
-		driver.get("http://localhost:8080/dbadmin");
+		driver.get(BASE_HOST);
 		
 		for (String klass : CLASSES) {
-			String createUrl = BASE_HOST + "/dbadmin/model/" + BASE_PACKAGE +  "." + klass + "/create";
+			String createUrl = BASE_HOST + "/model/" + BASE_PACKAGE +  "." + klass + "/create";
 			logger.info("Testing empty create for " + createUrl);
 			
 			driver.get(createUrl);
@@ -240,7 +243,7 @@ class SpringBootDbAdminTestProjectApplicationTests {
 		
 		for (String klass : CLASSES) {
 			String testId = klass.equals("User") ? "24e137ba-d5b5-4ca7-aad1-5359463e0a53" : "1";
-			String editUrl = BASE_HOST + "/dbadmin/model/" + BASE_PACKAGE +  "." + klass + "/edit/" + testId;
+			String editUrl = BASE_HOST + "/model/" + BASE_PACKAGE +  "." + klass + "/edit/" + testId;
 			logger.info("Testing no-modifications edit for " + editUrl);
 			
 			driver.get(editUrl);
@@ -251,7 +254,7 @@ class SpringBootDbAdminTestProjectApplicationTests {
 		logger.info("Testing no changes applied after no-modification edits");
 		for (String klass : CLASSES) {
 			String testId = klass.equals("User") ? "24e137ba-d5b5-4ca7-aad1-5359463e0a53" : "1";
-			String showUrl = BASE_HOST + "/dbadmin/model/" + BASE_PACKAGE +  "." + klass + "/show/" + testId;
+			String showUrl = BASE_HOST + "/model/" + BASE_PACKAGE +  "." + klass + "/show/" + testId;
 			
 			if (klass.endsWith("Product")) {
 				String[] colValues = 
