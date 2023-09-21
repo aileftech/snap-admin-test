@@ -24,6 +24,13 @@
 			<artifactId>selenium-java</artifactId>
 			<version>4.12.1</version>
 		</dependency>
+		
+<!-- 		<dependency> -->
+<!-- 		    <groupId>com.github.qlefevre</groupId> -->
+<!-- 		    <artifactId>crud-admin-spring-boot-starter</artifactId> -->
+<!-- 		    <version>1.1.0</version> -->
+<!-- 		</dependency> -->
+		
 
 		<!-- https://mvnrepository.com/artifact/org.jsoup/jsoup -->
 		<dependency>
