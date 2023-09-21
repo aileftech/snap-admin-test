@@ -1,6 +1,7 @@
 package tech.ailef.dbadmin.test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
@@ -13,6 +14,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -24,7 +26,7 @@ class SpringBootDbAdminTestProjectApplicationTests {
 	private final Logger logger = Logger.getLogger(getClass().getName());
 	
 	private final String BASE_HOST = "http://localhost:8080";
-	
+
 	private final String[] CLASSES = {
 		"Cart",
 		"CartItem",
@@ -222,10 +224,49 @@ class SpringBootDbAdminTestProjectApplicationTests {
 	}
 	
 	@Test
-	void testSelenium() {
-//		ChromeDriver driver = new ChromeDriver();
-//		driver.get("http://localhost:8080/dbadmin/");
-//		assertEquals(200, 200);
+	void testSelenium() throws InterruptedException, IOException {
+		ChromeDriver driver = new ChromeDriver();
+
+		driver.get("http://localhost:8080/dbadmin");
+		
+		for (String klass : CLASSES) {
+			String createUrl = BASE_HOST + "/dbadmin/model/" + BASE_PACKAGE +  "." + klass + "/create";
+			logger.info("Testing empty create for " + createUrl);
+			
+			driver.get(createUrl);
+			driver.findElement(By.cssSelector("input[type=\"submit\"]")).click();
+			assertFalse(driver.findElement(By.tagName("body")).getText().contains("Whitelabel Error Page"));
+		}
+		
+		for (String klass : CLASSES) {
+			String testId = klass.equals("User") ? "24e137ba-d5b5-4ca7-aad1-5359463e0a53" : "1";
+			String editUrl = BASE_HOST + "/dbadmin/model/" + BASE_PACKAGE +  "." + klass + "/edit/" + testId;
+			logger.info("Testing no-modifications edit for " + editUrl);
+			
+			driver.get(editUrl);
+			driver.findElement(By.cssSelector("input[type=\"submit\"]")).click();
+			assertFalse(driver.findElement(By.tagName("body")).getText().contains("Whitelabel Error Page"));
+		}
+		
+		logger.info("Testing no changes applied after no-modification edits");
+		for (String klass : CLASSES) {
+			String testId = klass.equals("User") ? "24e137ba-d5b5-4ca7-aad1-5359463e0a53" : "1";
+			String showUrl = BASE_HOST + "/dbadmin/model/" + BASE_PACKAGE +  "." + klass + "/show/" + testId;
+			
+			if (klass.endsWith("Product")) {
+				String[] colValues = 
+					{"1", "2022-07-01T10:00:01", "Apple iPhone 12 with 64GB Memory", "true", "NULL", "iPhone 12", "$699.99", "Download"};
+				logger.info("Testing: " + showUrl);
+
+				Document document = Jsoup.parse(Jsoup.connect(showUrl).execute().body());
+				
+				for (int i = 0; i < colValues.length; i++) {
+					Element row = document.selectFirst("table.show-table tr:nth-child(" + (i + 2) + ")");
+					String colText = row.selectFirst("td:nth-child(3)").text();
+					assertEquals(colValues[i], colText);
+				}
+			}
+		}
 	}
 	
 }
