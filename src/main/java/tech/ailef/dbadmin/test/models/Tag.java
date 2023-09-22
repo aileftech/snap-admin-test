@@ -7,7 +7,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
-import tech.ailef.dbadmin.annotations.DisplayName;
+import tech.ailef.dbadmin.external.annotations.DisplayName;
 
 @Entity
 public class Tag {

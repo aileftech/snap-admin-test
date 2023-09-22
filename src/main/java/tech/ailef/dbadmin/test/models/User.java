@@ -9,8 +9,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import tech.ailef.dbadmin.annotations.ComputedColumn;
-import tech.ailef.dbadmin.annotations.DisplayName;
+import tech.ailef.dbadmin.external.annotations.ComputedColumn;
+import tech.ailef.dbadmin.external.annotations.DisplayName;
 
 @Entity
 @Table(name="users")

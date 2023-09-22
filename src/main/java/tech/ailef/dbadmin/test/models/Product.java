@@ -13,10 +13,10 @@ import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import tech.ailef.dbadmin.annotations.DisplayFormat;
-import tech.ailef.dbadmin.annotations.DisplayImage;
-import tech.ailef.dbadmin.annotations.DisplayName;
-import tech.ailef.dbadmin.annotations.Filterable;
+import tech.ailef.dbadmin.external.annotations.DisplayFormat;
+import tech.ailef.dbadmin.external.annotations.DisplayImage;
+import tech.ailef.dbadmin.external.annotations.DisplayName;
+import tech.ailef.dbadmin.external.annotations.Filterable;
 
 @Entity
 @Table(name="products")

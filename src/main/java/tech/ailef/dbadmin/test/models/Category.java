@@ -5,7 +5,7 @@ import java.util.List;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
-import tech.ailef.dbadmin.annotations.DisplayName;
+import tech.ailef.dbadmin.external.annotations.DisplayName;
 
 @Entity
 public class Category {

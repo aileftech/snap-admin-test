@@ -8,7 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
-import tech.ailef.dbadmin.annotations.Filterable;
+import tech.ailef.dbadmin.external.annotations.Filterable;
 
 @Entity
 public class Cart {
