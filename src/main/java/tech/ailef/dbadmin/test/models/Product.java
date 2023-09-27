@@ -17,6 +17,7 @@ import tech.ailef.dbadmin.external.annotations.DisplayFormat;
 import tech.ailef.dbadmin.external.annotations.DisplayImage;
 import tech.ailef.dbadmin.external.annotations.DisplayName;
 import tech.ailef.dbadmin.external.annotations.Filterable;
+import tech.ailef.dbadmin.external.annotations.FilterableType;
 
 @Entity
 @Table(name="products")
@@ -29,6 +30,7 @@ public class Product {
 	private String name;
 	
 	@Filterable
+	@Lob
 	private String description;
 	
 	@DisplayFormat(format = "$%.2f")
@@ -48,7 +50,7 @@ public class Product {
 	private byte[] thumbnailImage;
 	
 	@Column(columnDefinition = "boolean default false")
-	@Filterable
+	@Filterable(type=FilterableType.CATEGORICAL)
 	private Boolean ecoFriendly;
 	
 	@ManyToMany(mappedBy = "products")

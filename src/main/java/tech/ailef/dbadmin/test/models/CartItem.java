@@ -5,6 +5,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import tech.ailef.dbadmin.external.annotations.Filterable;
+import tech.ailef.dbadmin.external.annotations.FilterableType;
 
 @Entity
 public class CartItem {
@@ -16,8 +18,10 @@ public class CartItem {
 	private Cart cart;
 	
 	@ManyToOne
+	@Filterable(type=FilterableType.CATEGORICAL)
 	private Product product;
 	
+	@Filterable(type=FilterableType.CATEGORICAL)
 	private Integer quantity;
 	
 	public Long getId() {

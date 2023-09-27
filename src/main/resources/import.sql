@@ -1562,7 +1562,7 @@ INSERT INTO order_line (id, order_id, price, quantity, product_id) VALUES (1265,
 
 
 
-
+INSERT INTO tag (id, name) VALUES (1, 'Best-seller'), (2, 'On sale'), (3, 'Limited edition');
 
 
 INSERT INTO cart_item (id, cart_id, quantity, product_id) VALUES (1, 1, 1, 33);

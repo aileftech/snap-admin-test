@@ -10,6 +10,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import tech.ailef.dbadmin.external.annotations.ComputedColumn;
 import tech.ailef.dbadmin.external.annotations.Filterable;
+import tech.ailef.dbadmin.external.annotations.FilterableType;
 
 @Entity
 @Table(name="orders")
@@ -18,7 +19,7 @@ public class Order {
 	private Long id;
 	
 	@ManyToOne
-	@Filterable
+	@Filterable(type=FilterableType.CATEGORICAL)
 	private User user;
 	
 	@OneToMany(mappedBy = "order")
