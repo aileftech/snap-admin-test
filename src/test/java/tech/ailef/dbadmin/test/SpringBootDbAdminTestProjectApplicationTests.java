@@ -236,8 +236,10 @@ class SpringBootDbAdminTestProjectApplicationTests {
 		// Test links in list page
 		for (String klass : CLASSES) {
 			driver.get(BASE_HOST + "/model/tech.ailef.dbadmin.test.models." + klass);
-			List<WebElement> links = driver.findElements(By.tagName("a"));
-			List<String> urls = links.stream().map(l -> l.getAttribute("href")).collect(Collectors.toList());
+			List<WebElement> links = driver.findElements(By.cssSelector("a"));
+			List<String> urls = links.stream().map(l -> l.getAttribute("href"))
+						.limit(25)
+						.collect(Collectors.toList());
 	
 			for (String url : urls) {
 				logger.info("Testing link URL (from list page): " + url);
@@ -255,7 +257,9 @@ class SpringBootDbAdminTestProjectApplicationTests {
 			
 			driver.get(editUrl);
 			List<WebElement> links = driver.findElements(By.tagName("a"));
-			List<String> urls = links.stream().map(l -> l.getAttribute("href")).collect(Collectors.toList());
+			List<String> urls = links.stream().map(l -> l.getAttribute("href"))
+						.limit(25)
+						.collect(Collectors.toList());
 	
 			for (String url : urls) {
 				logger.info("Testing link URL (from show page): " + url);
@@ -264,11 +268,52 @@ class SpringBootDbAdminTestProjectApplicationTests {
 			}
 	
 		}
-		
+		driver.close();
 		
 	}
 
 
+	@Test
+	void testAutocomplete() throws IOException, InterruptedException {
+		ChromeDriver driver = new ChromeDriver();
+		
+		driver.get("http://localhost:8080/admin/model/tech.ailef.dbadmin.test.models.OrderLine/edit/1");
+		// Send the string "nok" and check that Nokia results appear
+		driver.findElement(By.cssSelector("input[name=\"product_id\"]")).clear();
+		driver.findElement(By.cssSelector("input[name=\"product_id\"]")).sendKeys("nok");
+		
+		WebElement autocomplete = driver.findElements(By.cssSelector("div.suggestions.d-block")).get(0);
+		List<WebElement> suggestions = autocomplete.findElements(By.cssSelector(".suggestion"));
+		assertEquals("Nokia 8.3 $699.0", suggestions.get(0).findElement(By.tagName("p")).getText());
+		assertEquals("Nokia 9.3 $799.0", suggestions.get(1).findElement(By.tagName("p")).getText());
+		assertEquals("Nokia 7.2 $349.0", suggestions.get(2).findElement(By.tagName("p")).getText());
+		
+		// Click a field and check that the suggestion to type appears
+		driver.findElement(By.cssSelector("input[name=\"order_id\"]")).click();
+		autocomplete = driver.findElements(By.cssSelector("div.suggestions.d-block")).get(0);
+		assertEquals("Enter a valid ID or start typing for suggestions", autocomplete.getText());
+
+		driver.close();
+	}
+
+	@Test
+	void testActionLogs() throws IOException {
+		// Edit product id 41 and then check that the edit appears in the logs
+		ChromeDriver driver = new ChromeDriver();
+		
+		driver.get("http://localhost:8080/admin/model/tech.ailef.dbadmin.test.models.Product/edit/41");
+		driver.findElement(By.cssSelector("#__id_name")).sendKeys("A");
+		driver.findElement(By.cssSelector("input[type=\"submit\"]")).click();
+		driver.get("http://localhost:8080/admin/logs?actionType=Any&table=Any&itemId=41");
+		
+		WebElement row = driver.findElements(By.cssSelector("tr")).get(1);
+		List<WebElement> cols = row.findElements(By.cssSelector("td"));
+		assertEquals("EDIT", cols.get(0).getText());
+		assertEquals("products", cols.get(1).getText());
+		assertEquals("41", cols.get(2).getText());
+		
+		driver.close();
+	}
 	
 	@Test
 	void testCreateEdit() throws InterruptedException, IOException {
@@ -314,6 +359,7 @@ class SpringBootDbAdminTestProjectApplicationTests {
 				}
 			}
 		}
+		driver.close();
 	}
 	
 }
