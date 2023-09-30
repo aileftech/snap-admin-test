@@ -101,17 +101,17 @@ class SpringBootDbAdminTestProjectApplicationTests {
 		assertTrue(titleText.endsWith("iPhone 12 $699.99"));
 
 		// Test rows of the show table
-		Element e1 = document.selectFirst("table.show-table tr:nth-child(7) td:nth-child(2)");
+		Element e1 = document.selectFirst("table.show-table tr:nth-child(3) td:nth-child(2)");
 		assertEquals("name", e1.text());
-		Element e2 = document.selectFirst("table.show-table tr:nth-child(7) td:nth-child(3)");
+		Element e2 = document.selectFirst("table.show-table tr:nth-child(3) td:nth-child(3)");
 		assertEquals("iPhone 12", e2.text());
-		Element e3 = document.selectFirst("table.show-table tr:nth-child(7) td:nth-child(4)");
+		Element e3 = document.selectFirst("table.show-table tr:nth-child(3) td:nth-child(4)");
 		assertEquals("STRING", e3.text());
-		Element e4 = document.selectFirst("table.show-table tr:nth-child(8) td:nth-child(2)");
+		Element e4 = document.selectFirst("table.show-table tr:nth-child(4) td:nth-child(2)");
 		assertEquals("price", e4.text());
-		Element e5 = document.selectFirst("table.show-table tr:nth-child(8) td:nth-child(3)");
+		Element e5 = document.selectFirst("table.show-table tr:nth-child(4) td:nth-child(3)");
 		assertEquals("$699.99", e5.text());
-		Element e6 = document.selectFirst("table.show-table tr:nth-child(8) td:nth-child(4)");
+		Element e6 = document.selectFirst("table.show-table tr:nth-child(4) td:nth-child(4)");
 		assertEquals("DOUBLE", e6.text());
 		
 		// Test the one to many table
@@ -281,17 +281,19 @@ class SpringBootDbAdminTestProjectApplicationTests {
 		// Send the string "nok" and check that Nokia results appear
 		driver.findElement(By.cssSelector("input[name=\"product_id\"]")).clear();
 		driver.findElement(By.cssSelector("input[name=\"product_id\"]")).sendKeys("nok");
+		Thread.sleep(200);
+		driver.findElement(By.cssSelector("input[name=\"product_id\"]")).sendKeys("i");
+		Thread.sleep(500); // Need to give time to the autocomplete to load
 		
 		WebElement autocomplete = driver.findElements(By.cssSelector("div.suggestions.d-block")).get(0);
 		List<WebElement> suggestions = autocomplete.findElements(By.cssSelector(".suggestion"));
-		Thread.sleep(1000); // Need to give time to the autocomplete to load
 		assertEquals("Nokia 8.3 $699.0", suggestions.get(0).findElement(By.tagName("p")).getText());
 		assertEquals("Nokia 9.3 $799.0", suggestions.get(1).findElement(By.tagName("p")).getText());
 		assertEquals("Nokia 7.2 $349.0", suggestions.get(2).findElement(By.tagName("p")).getText());
 		
 		// Click a field and check that the suggestion to type appears
 		driver.findElement(By.cssSelector("input[name=\"order_id\"]")).click();
-		Thread.sleep(1000); // Need to give time to the autocomplete to load
+		Thread.sleep(500); // Need to give time to the autocomplete to load
 		autocomplete = driver.findElements(By.cssSelector("div.suggestions.d-block")).get(0);
 		assertEquals("Enter a valid ID or start typing for suggestions", autocomplete.getText());
 
@@ -349,7 +351,7 @@ class SpringBootDbAdminTestProjectApplicationTests {
 			
 			if (klass.endsWith("Product")) {
 				String[] colValues = 
-					{"1", "2022-07-01T10:00:01", "Apple iPhone 12 with 64GB Memory", "true", "NULL", "iPhone 12", "$699.99", "Download"};
+					{"1", "iPhone 12", "$699.99", "2022-07-01T10:00:01", "Apple iPhone 12 with 64GB Memory", "true", "NULL", "Download"};
 				logger.info("Testing: " + showUrl);
 
 				Document document = Jsoup.parse(Jsoup.connect(showUrl).execute().body());
