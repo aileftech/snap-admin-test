@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
+import com.beust.jcommander.internal.Nullable;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -27,6 +29,7 @@ public class Product {
 	private Long id;
 	
 	@Filterable
+	@Column(nullable = false)
 	private String name;
 	
 	@Filterable
@@ -35,6 +38,7 @@ public class Product {
 	
 	@DisplayFormat(format = "$%.2f")
 	@Filterable
+	@Column(nullable = false)
 	private Double price;
 	
 	@Filterable
