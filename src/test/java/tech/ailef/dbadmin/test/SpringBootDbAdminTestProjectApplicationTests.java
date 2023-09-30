@@ -2,6 +2,7 @@ package tech.ailef.dbadmin.test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
@@ -371,9 +372,46 @@ class SpringBootDbAdminTestProjectApplicationTests {
 		ChromeDriver driver = new ChromeDriver();
 
 		driver.get("http://localhost:8080/admin/model/tech.ailef.dbadmin.test.models.Product?query=App&page=1&pageSize=50");
-		
 		List<WebElement> elements = driver.findElements(By.cssSelector("tr"));
 		assertEquals(6, elements.size());
+		
+		driver.close();
+	}
+	
+	/**
+	 * Test that the hidden "password" column for the User class
+	 * is not shown when listing the users or in the detail page.
+	 * Check, instead, that it's correctly shown in create/edit,
+	 * because the field is not nullable and thus required.
+	 */
+	@Test
+	void testHiddenColumn() {
+		ChromeDriver driver = new ChromeDriver();
+		
+		// List page
+		driver.get("http://localhost:8080/admin/model/tech.ailef.dbadmin.test.models.User");
+		List<WebElement> ths = driver.findElements(By.cssSelector("th"));
+		for (WebElement th : ths) {
+			assertEquals(true, !th.getText().contains("password"));
+		}
+		
+		// Detail page
+		driver.get("http://localhost:8080/admin/model/tech.ailef.dbadmin.test.models.User/show/24e137ba-d5b5-4ca7-aad1-5359463e0a53");
+		List<WebElement> tds = driver.findElements(By.cssSelector("td"));
+		for (WebElement td : tds) {
+			assertEquals(true, !td.getText().contains("password"));
+		}
+		
+		// Test edit page
+		driver.get("http://localhost:8080/admin/model/tech.ailef.dbadmin.test.models.User/edit/24e137ba-d5b5-4ca7-aad1-5359463e0a53");
+		
+		WebElement element = driver.findElement(By.id("__id_password"));
+		assertNotNull(element);
+
+		// Test create page
+		driver.get("http://localhost:8080/admin/model/tech.ailef.dbadmin.test.models.User/create");
+		element = driver.findElement(By.id("__id_password"));
+		assertNotNull(element);
 		
 		driver.close();
 	}

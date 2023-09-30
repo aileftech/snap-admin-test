@@ -160,16 +160,16 @@ INSERT INTO category_products (products_id, categories_id) VALUES (70,1);
 
 INSERT INTO cart (id) VALUES (1), (2), (3), (4), (5), (6), (7), (8), (9), (10);
 
-INSERT INTO users (id, name, cart_id) VALUES ('d7558967-c177-40f1-8360-25c7806329df', 'Benjamin Mitchell', 1);
-INSERT INTO users (id, name, cart_id) VALUES ('3ccff81d-9f57-44b4-b414-5dc8bed05a28', 'Ethan Anderson', 2);
-INSERT INTO users (id, name, cart_id) VALUES ('c07ed80f-8658-40af-b5d1-bcda05f8e115', 'Lucas Johnson', 3);
-INSERT INTO users (id, name, cart_id) VALUES ('ac0cf5a2-e5cf-49a7-855f-3bd2c0a79550', 'Mason Parker', 4);
-INSERT INTO users (id, name, cart_id) VALUES ('ffd5500e-1231-48e2-8384-3dc15fc7ed90', 'Oliver Williams', 5);
-INSERT INTO users (id, name, cart_id) VALUES ('471620c4-d859-49cd-b17b-5a27250d44a8', 'Sophia Davis', 6);
-INSERT INTO users (id, name, cart_id) VALUES ('969775e5-95df-4b68-8e41-56bb781276c6', 'Emily Carter', 7);
-INSERT INTO users (id, name, cart_id) VALUES ('98e2386a-5510-456c-88ea-60854a590b17', 'Ava Turner', 8);
-INSERT INTO users (id, name, cart_id) VALUES ('24e137ba-d5b5-4ca7-aad1-5359463e0a53', 'Olivia Evans', 9);
-INSERT INTO users (id, name, cart_id) VALUES ('6e21105f-3d24-4ca1-9fc0-b4e688992557', 'Isabella Foster', 10);
+INSERT INTO users (id, name, cart_id, password) VALUES ('d7558967-c177-40f1-8360-25c7806329df', 'Benjamin Mitchell', 1, 'ba4868b3f277c8e387b55d9e3d0be7c045cdd89e');
+INSERT INTO users (id, name, cart_id, password) VALUES ('3ccff81d-9f57-44b4-b414-5dc8bed05a28', 'Ethan Anderson', 2, '1125780f5975c9cd614f8cf83c693d040a524268');
+INSERT INTO users (id, name, cart_id, password) VALUES ('c07ed80f-8658-40af-b5d1-bcda05f8e115', 'Lucas Johnson', 3, 'f8fe79edb81517c4f6f5abad8955ecdd5ea26a1c');
+INSERT INTO users (id, name, cart_id, password) VALUES ('ac0cf5a2-e5cf-49a7-855f-3bd2c0a79550', 'Mason Parker', 4, '29eebf64edaba08a4a0862270f3dd433aa2ba449');
+INSERT INTO users (id, name, cart_id, password) VALUES ('ffd5500e-1231-48e2-8384-3dc15fc7ed90', 'Oliver Williams', 5, '8c9aa723f11d1b2fcd8186809093a72afd14874d');
+INSERT INTO users (id, name, cart_id, password) VALUES ('471620c4-d859-49cd-b17b-5a27250d44a8', 'Sophia Davis', 6, '70ffc235c64c72669628a93ae4535ee7882e4711');
+INSERT INTO users (id, name, cart_id, password) VALUES ('969775e5-95df-4b68-8e41-56bb781276c6', 'Emily Carter', 7, 'b107aed7a0b276cebbcbaddfd8f3957278652e22');
+INSERT INTO users (id, name, cart_id, password) VALUES ('98e2386a-5510-456c-88ea-60854a590b17', 'Ava Turner', 8, 'a4a5321c866f4c3c5d7edf90853140ea72738e13');
+INSERT INTO users (id, name, cart_id, password) VALUES ('24e137ba-d5b5-4ca7-aad1-5359463e0a53', 'Olivia Evans', 9, '0f29744ad7c836a9cd49f13db049836368fe2400');
+INSERT INTO users (id, name, cart_id, password) VALUES ('6e21105f-3d24-4ca1-9fc0-b4e688992557', 'Isabella Foster', 10, '7d74303caf628fab7593dd98d990071011d93d13');
 
 
 INSERT INTO orders (id, user_id, created_at) VALUES (1, 'd7558967-c177-40f1-8360-25c7806329df', '2021-11-16');
