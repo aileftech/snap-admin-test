@@ -284,12 +284,14 @@ class SpringBootDbAdminTestProjectApplicationTests {
 		
 		WebElement autocomplete = driver.findElements(By.cssSelector("div.suggestions.d-block")).get(0);
 		List<WebElement> suggestions = autocomplete.findElements(By.cssSelector(".suggestion"));
+		Thread.sleep(500); // Need to give time to the autocomplete to load
 		assertEquals("Nokia 8.3 $699.0", suggestions.get(0).findElement(By.tagName("p")).getText());
 		assertEquals("Nokia 9.3 $799.0", suggestions.get(1).findElement(By.tagName("p")).getText());
 		assertEquals("Nokia 7.2 $349.0", suggestions.get(2).findElement(By.tagName("p")).getText());
 		
 		// Click a field and check that the suggestion to type appears
 		driver.findElement(By.cssSelector("input[name=\"order_id\"]")).click();
+		Thread.sleep(500); // Need to give time to the autocomplete to load
 		autocomplete = driver.findElements(By.cssSelector("div.suggestions.d-block")).get(0);
 		assertEquals("Enter a valid ID or start typing for suggestions", autocomplete.getText());
 
@@ -361,7 +363,7 @@ class SpringBootDbAdminTestProjectApplicationTests {
 		}
 		driver.close();
 	}
-	
+
 }
 
 
