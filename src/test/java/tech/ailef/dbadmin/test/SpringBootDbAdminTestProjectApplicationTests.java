@@ -364,6 +364,17 @@ class SpringBootDbAdminTestProjectApplicationTests {
 		driver.close();
 	}
 
+	@Test
+	void testSearch() {
+		ChromeDriver driver = new ChromeDriver();
+
+		driver.get("http://localhost:8080/admin/model/tech.ailef.dbadmin.test.models.Product?query=App&page=1&pageSize=50");
+		
+		List<WebElement> elements = driver.findElements(By.cssSelector("tr"));
+		assertEquals(6, elements.size());
+		
+		driver.close();
+	}
 }
 
 
