@@ -75,12 +75,8 @@ public class User {
 	}
 	
 	@ComputedColumn
-	public double totalSpent() {
-		double total = 0;
-		for (Order o : orders) {
-			total += o.total();
-		}
-		return total;
+	public double numberOfOrders() {
+		return orders.size();
 	}
 	
 }
