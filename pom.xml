@@ -11,7 +11,7 @@
 	</parent>
 	<groupId>tech.ailef</groupId>
 	<artifactId>spring-boot-db-admin-test-project</artifactId>
-	<version>0.1.3-SNAPSHOT</version>
+	<version>0.1.3</version>
 	<name>spring-boot-db-admin-test-project</name>
 	<description>Srping Boot DB Admin Dashboard</description>
 	<properties>
@@ -69,7 +69,7 @@
 		<dependency>
 			<groupId>tech.ailef</groupId>
 			<artifactId>spring-boot-db-admin</artifactId>
-			<version>0.1.3-SNAPSHOT</version>
+			<version>0.1.3</version>
 		</dependency>
 	</dependencies>
 
