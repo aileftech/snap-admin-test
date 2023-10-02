@@ -139,13 +139,13 @@ class SpringBootDbAdminTestProjectApplicationTests {
 		assertEquals("id STRING", cols.get(2).text());
 		assertEquals("cart_id LONG", cols.get(3).text());
 		assertEquals("name STRING", cols.get(4).text());
-		assertEquals("total_spent COMPUTED", cols.get(5).text());
+		assertEquals("number_of_orders COMPUTED", cols.get(5).text());
 		
 		cols = rows.get(1).select("td");
 		assertEquals("ffd5500e-1231-48e2-8384-3dc15fc7ed90", cols.get(2).text());
 		assertEquals("5 5", cols.get(3).text());
 		assertEquals("Oliver Williams", cols.get(4).text());
-		assertEquals("46989.02999999999", cols.get(5).text());
+		assertEquals("67.0", cols.get(5).text());
 	}
 	
 	@Test
