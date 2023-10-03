@@ -18,6 +18,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -412,6 +413,49 @@ class SpringBootDbAdminTestProjectApplicationTests {
 		driver.get(BASE_HOST + "/model/tech.ailef.dbadmin.test.models.User/create");
 		element = driver.findElement(By.id("__id_password"));
 		assertNotNull(element);
+		
+		driver.close();
+	}
+	
+	/**
+	 * Tests that the edit and create form correctly display read only fields,
+	 * that is normally on create and disabled on edit.
+	 */
+	@Test
+	void testReadOnlyFrontEnd() {
+		ChromeDriver driver = new ChromeDriver();
+		
+		driver.get(BASE_HOST + "/model/tech.ailef.dbadmin.test.models.Product/edit/31");
+		WebElement createdAtInput = driver.findElement(By.cssSelector("input[name=\"created_at\"]"));
+		String cssClass = createdAtInput.getAttribute("class");
+		assertTrue(cssClass.contains("disable"));
+		
+		driver.get(BASE_HOST + "/model/tech.ailef.dbadmin.test.models.Product/create");
+		createdAtInput = driver.findElement(By.cssSelector("input[name=\"created_at\"]"));
+		cssClass = createdAtInput.getAttribute("class");
+		assertFalse(cssClass.contains("disable"));
+		
+		driver.close();
+	}
+	
+	/**
+	 * Tests that the repository implementation doesn't apply changes to read only fields.
+	 * Check that after sending an edit request through the web UI the value doesn't change.
+	 */
+	@Test
+	void testReadOnlyBackEnd() {
+		ChromeDriver driver = new ChromeDriver();
+
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+		
+		driver.get(BASE_HOST + "/model/tech.ailef.dbadmin.test.models.Product/edit/7");
+		WebElement createdAtInput = driver.findElement(By.cssSelector("input[name=\"created_at\"]"));
+		js.executeScript("arguments[0].value = '2052-07-01T10:00:01';", createdAtInput);
+		driver.findElement(By.cssSelector("input[type=\"submit\"]")).click();
+		
+		// Test that after the edit the date has not changed
+		WebElement ele = driver.findElement(By.cssSelector("tr:nth-child(5) td:nth-child(3)"));
+		assertEquals("2022-07-01T10:00:01", ele.getText());
 		
 		driver.close();
 	}
