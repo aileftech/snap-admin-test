@@ -3,6 +3,7 @@ package tech.ailef.dbadmin.test.additional;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import tech.ailef.dbadmin.external.annotations.ReadOnly;
 
 @Entity
 @Table(name="inventory")
