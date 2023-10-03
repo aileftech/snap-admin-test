@@ -278,7 +278,7 @@ class SpringBootDbAdminTestProjectApplicationTests {
 	void testAutocomplete() throws IOException, InterruptedException {
 		ChromeDriver driver = new ChromeDriver();
 		
-		driver.get("http://localhost:8080/admin/model/tech.ailef.dbadmin.test.models.OrderLine/edit/1");
+		driver.get(BASE_HOST + "/model/tech.ailef.dbadmin.test.models.OrderLine/edit/1");
 		// Send the string "nok" and check that Nokia results appear
 		driver.findElement(By.cssSelector("input[name=\"product_id\"]")).clear();
 		driver.findElement(By.cssSelector("input[name=\"product_id\"]")).sendKeys("nok");
@@ -306,10 +306,10 @@ class SpringBootDbAdminTestProjectApplicationTests {
 		// Edit product id 41 and then check that the edit appears in the logs
 		ChromeDriver driver = new ChromeDriver();
 		
-		driver.get("http://localhost:8080/admin/model/tech.ailef.dbadmin.test.models.Product/edit/41");
+		driver.get(BASE_HOST + "/model/tech.ailef.dbadmin.test.models.Product/edit/41");
 		driver.findElement(By.cssSelector("#__id_name")).sendKeys("A");
 		driver.findElement(By.cssSelector("input[type=\"submit\"]")).click();
-		driver.get("http://localhost:8080/admin/logs?actionType=Any&table=Any&itemId=41");
+		driver.get(BASE_HOST + "/logs?actionType=Any&table=Any&itemId=41");
 		
 		WebElement row = driver.findElements(By.cssSelector("tr")).get(1);
 		List<WebElement> cols = row.findElements(By.cssSelector("td"));
@@ -371,7 +371,7 @@ class SpringBootDbAdminTestProjectApplicationTests {
 	void testSearch() {
 		ChromeDriver driver = new ChromeDriver();
 
-		driver.get("http://localhost:8080/admin/model/tech.ailef.dbadmin.test.models.Product?query=App&page=1&pageSize=50");
+		driver.get(BASE_HOST + "/model/tech.ailef.dbadmin.test.models.Product?query=App&page=1&pageSize=50");
 		List<WebElement> elements = driver.findElements(By.cssSelector("tr"));
 		assertEquals(6, elements.size());
 		
@@ -389,32 +389,33 @@ class SpringBootDbAdminTestProjectApplicationTests {
 		ChromeDriver driver = new ChromeDriver();
 		
 		// List page
-		driver.get("http://localhost:8080/admin/model/tech.ailef.dbadmin.test.models.User");
+		driver.get(BASE_HOST + "/model/tech.ailef.dbadmin.test.models.User");
 		List<WebElement> ths = driver.findElements(By.cssSelector("th"));
 		for (WebElement th : ths) {
 			assertEquals(true, !th.getText().contains("password"));
 		}
 		
 		// Detail page
-		driver.get("http://localhost:8080/admin/model/tech.ailef.dbadmin.test.models.User/show/24e137ba-d5b5-4ca7-aad1-5359463e0a53");
+		driver.get(BASE_HOST + "/model/tech.ailef.dbadmin.test.models.User/show/24e137ba-d5b5-4ca7-aad1-5359463e0a53");
 		List<WebElement> tds = driver.findElements(By.cssSelector("td"));
 		for (WebElement td : tds) {
 			assertEquals(true, !td.getText().contains("password"));
 		}
 		
 		// Test edit page
-		driver.get("http://localhost:8080/admin/model/tech.ailef.dbadmin.test.models.User/edit/24e137ba-d5b5-4ca7-aad1-5359463e0a53");
+		driver.get(BASE_HOST + "/model/tech.ailef.dbadmin.test.models.User/edit/24e137ba-d5b5-4ca7-aad1-5359463e0a53");
 		
 		WebElement element = driver.findElement(By.id("__id_password"));
 		assertNotNull(element);
 
 		// Test create page
-		driver.get("http://localhost:8080/admin/model/tech.ailef.dbadmin.test.models.User/create");
+		driver.get(BASE_HOST + "/model/tech.ailef.dbadmin.test.models.User/create");
 		element = driver.findElement(By.id("__id_password"));
 		assertNotNull(element);
 		
 		driver.close();
 	}
+	
 }
 
 
