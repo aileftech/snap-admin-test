@@ -18,6 +18,7 @@ import tech.ailef.dbadmin.external.annotations.DisplayImage;
 import tech.ailef.dbadmin.external.annotations.DisplayName;
 import tech.ailef.dbadmin.external.annotations.Filterable;
 import tech.ailef.dbadmin.external.annotations.FilterableType;
+import tech.ailef.dbadmin.external.annotations.ReadOnly;
 
 @Entity
 @Table(name="products")
@@ -40,6 +41,7 @@ public class Product {
 	private Double price;
 	
 	@Filterable
+	@ReadOnly
 	private LocalDateTime createdAt;
 	
 	@Lob
