@@ -180,16 +180,11 @@ class SpringBootDbAdminTestProjectApplicationTests {
 		driver.get(BASE_HOST + "/model/tech.ailef.dbadmin.test.additional.InventoryItem/create");
 		
 		driver.findElement(By.cssSelector("input[name=\"available\"]")).sendKeys("true");
-		JavascriptExecutor js = (JavascriptExecutor) driver;
-		js.executeScript("arguments[0].value = '2052-07-01T10:00';", driver.findElement(By.cssSelector("input[name=\"created_at\"]")));
 		driver.findElement(By.cssSelector("input[name=\"name\"]")).sendKeys("Test name");
 		driver.findElement(By.cssSelector("input[type=\"submit\"]")).click();
 		
 		String value = driver.findElement(By.cssSelector("input[name=\"name\"]")).getAttribute("value");
 		assertEquals("Test name", value);
-		
-		value = driver.findElement(By.cssSelector("input[name=\"created_at\"]")).getAttribute("value");
-		assertEquals("2052-07-01T10:00", value);
 		
 		value = driver.findElement(By.cssSelector("input[name=\"available\"]")).getAttribute("value");
 		assertEquals("true", value);
@@ -519,13 +514,13 @@ class SpringBootDbAdminTestProjectApplicationTests {
 		
 		assertNotNull(errorSectionTitle);
 
-		assertDoesNotThrow(() -> { 
+		assertDoesNotThrow(() -> {
 			driver.findElement(By.cssSelector("ul.mapping-errors"));
 		}, "List of mapping errors not found");
 		
 		String text = driver.findElement(By.cssSelector("ul.mapping-errors li")).getText();
 		assertEquals(
-			"The class contains the field `createdAt` of type `OffsetDateTime`, which is not supported", 
+			"The class contains the field `createdAt` of type `Calendar`, which is not supported", 
 			text.trim()
 		);
 		
