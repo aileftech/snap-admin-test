@@ -1,5 +1,6 @@
 package tech.ailef.dbadmin.test;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -165,6 +166,35 @@ class SpringBootDbAdminTestProjectApplicationTests {
 		
 		String name = document.selectFirst("input[name=\"name\"]").val();
 		assertEquals("Ethan Anderson", name);
+	}
+	
+	/**
+	 * Tests that when a user creates an object but gets an error,
+	 * the other fields the he filled are still present with the
+	 * correct value in the new page. 
+	 */
+	@Test
+	void testCreateRememberFields() {
+		ChromeDriver driver = new ChromeDriver();
+		
+		driver.get(BASE_HOST + "/model/tech.ailef.dbadmin.test.additional.InventoryItem/create");
+		
+		driver.findElement(By.cssSelector("input[name=\"available\"]")).sendKeys("true");
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("arguments[0].value = '2052-07-01T10:00';", driver.findElement(By.cssSelector("input[name=\"created_at\"]")));
+		driver.findElement(By.cssSelector("input[name=\"name\"]")).sendKeys("Test name");
+		driver.findElement(By.cssSelector("input[type=\"submit\"]")).click();
+		
+		String value = driver.findElement(By.cssSelector("input[name=\"name\"]")).getAttribute("value");
+		assertEquals("Test name", value);
+		
+		value = driver.findElement(By.cssSelector("input[name=\"created_at\"]")).getAttribute("value");
+		assertEquals("2052-07-01T10:00", value);
+		
+		value = driver.findElement(By.cssSelector("input[name=\"available\"]")).getAttribute("value");
+		assertEquals("true", value);
+		
+		driver.close();
 	}
 	
 	/**
@@ -460,6 +490,47 @@ class SpringBootDbAdminTestProjectApplicationTests {
 		driver.close();
 	}
 	
+	/**
+	 * The test projects contains some fields with an unsupported type.
+	 * Check that the correct visual clues and error messages are present
+	 * where appropriate.
+	 */
+	@Test
+	void testMappingErrors() {
+		ChromeDriver driver = new ChromeDriver();
+		
+		driver.get(BASE_HOST + "/");
+		
+		WebElement secondTable = driver.findElements(By.tagName("table")).get(1);
+		WebElement warningCol = secondTable.findElement(By.cssSelector("td.warning-col"));
+		
+		// Check that a NoSuchElementException is not thrown,
+		// i.e. the link is present to the schema page
+		assertDoesNotThrow(() -> { 
+			warningCol.findElement(By.tagName("a"));
+		}, "<a> tag not found in .warning-col element");
+		
+		// Go to the schema page (if link is correct)
+		warningCol.findElement(By.tagName("a")).click();
+		
+		List<WebElement> titles = driver.findElements(By.tagName("h3"));
+		WebElement errorSectionTitle = 
+			titles.stream().filter(t -> t.getText().equals("Errors")).findFirst().orElse(null);
+		
+		assertNotNull(errorSectionTitle);
+
+		assertDoesNotThrow(() -> { 
+			driver.findElement(By.cssSelector("ul.mapping-errors"));
+		}, "List of mapping errors not found");
+		
+		String text = driver.findElement(By.cssSelector("ul.mapping-errors li")).getText();
+		assertEquals(
+			"The class contains the field `createdAt` of type `OffsetDateTime`, which is not supported", 
+			text.trim()
+		);
+		
+		driver.close();
+	}
 }
 
 
