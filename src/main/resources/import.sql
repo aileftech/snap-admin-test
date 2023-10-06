@@ -1579,4 +1579,6 @@ UPDATE products SET created_at = '2022-07-01T10:00:01' WHERE id IN (1, 2, 3, 4, 
 
 INSERT INTO inventory (id, name, available, created_at) VALUES (1, 'Test 1', true, '2021-09-22T15:30:10');
 INSERT INTO inventory (id, name, available, created_at) VALUES (2, 'Test 2', true, '2022-12-23T15:37:00');
-INSERT INTO inventory (id, name, available, created_at) VALUES (3, 'Test 3', true, '2021-09-36T11:30:00');
+INSERT INTO inventory (id, name, available, created_at) VALUES (3, 'Test 3', true, '2021-09-26T11:30:00');
+
+INSERT INTO uneditable (id, title, quantity) VALUES ('1', 'This object is not editable', 29), ('2', 'This object is not editable', 32);
