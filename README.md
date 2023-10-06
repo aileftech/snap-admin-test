@@ -1,8 +1,21 @@
-# Spring Boot Admin Panel - Tests
+# Spring Boot Admin Panel - Test project
 
 This is a sample project used for testing [spring-boot-database-admin](https://github.com/aileftech/spring-boot-database-admin).
 
-You can clone this project, run it and visit [http://localhost:8080/dbadmin](http://localhost:8080/dbadmin) to check how it works.
+This repo contains:
+ * A basic Spring Boot app with entity definitions and an `import.sql` file that creates a sample database
+ * End-to-end tests performed with Selenium on the Spring Boot Database Admin web interface, using the data from the sample database
 
-Notice that the only code here is the `@Entity` classes, there are no controllers or repositories because they are all automatically
-created.
+The repo doesn't contain contollers, repositories, etc... because everything is generated at runtime.
+
+To run this project:
+
+```
+git clone https://github.com/aileftech/spring-boot-database-admin-test
+cd spring-boot-database-admin-test
+mvn spring-boot:run # or 'mvn spring-boot:start' to run in background
+```
+
+The web interface should then be available at [http://localhost:8080/admin](http://localhost:8080/admin).
+
+While you have the application running, you can run the tests with `mvn test`.
