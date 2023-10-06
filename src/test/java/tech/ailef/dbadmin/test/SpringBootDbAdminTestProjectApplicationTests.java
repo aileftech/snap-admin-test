@@ -572,6 +572,51 @@ class SpringBootDbAdminTestProjectApplicationTests {
 		
 		driver.close();
 	}
+	
+	/**
+	 * Tests that the CREATE option is actually disabled both on the 
+	 * front end (additional CSS class applied) and that the create page
+	 * is not served (still TODO: check POST request).
+	 */
+	@Test
+	void testDisableCreate() {
+		ChromeDriver driver = new ChromeDriver();
+
+		// List page
+		driver.get(BASE_HOST + "/model/tech.ailef.dbadmin.test.additional.InventoryItem");
+		WebElement createLink = driver.findElement(By.cssSelector("h3.create-button a"));
+		assertTrue(createLink.getAttribute("class").contains("disable"));
+		
+		// Schema page
+		driver.get(BASE_HOST + "/model/tech.ailef.dbadmin.test.additional.InventoryItem/schema");
+		createLink = driver.findElement(By.cssSelector("h3.create-button a"));
+		assertTrue(createLink.getAttribute("class").contains("disable"));
+		
+		driver.get(BASE_HOST + "/model/tech.ailef.dbadmin.test.additional.InventoryItem/create");
+		WebElement alertTitle = driver.findElement(By.cssSelector(".alert-danger h6"));
+		assertEquals("Unauthorized", alertTitle.getText().trim());
+		
+		driver.close();
+	}
+	
+	/**
+	 * Tests that the EDIT option is actually disabled both on the 
+	 * front end (additional CSS class applied) and that the edit page
+	 * is not served (still TODO: check POST request).
+	 */
+	@Test
+	void testDisableEdit() {
+		ChromeDriver driver = new ChromeDriver();
+		
+		// List page
+		driver.get(BASE_HOST + "/model/tech.ailef.dbadmin.test.additional.UneditableExample");
+		WebElement createLink = driver.findElement(By.cssSelector(".row-icons a"));
+		assertTrue(createLink.getAttribute("class").contains("disable"));
+		
+		driver.get(BASE_HOST + "/model/tech.ailef.dbadmin.test.additional.UneditableExample/edit/1");
+		WebElement alertTitle = driver.findElement(By.cssSelector(".alert-danger h6"));
+		assertEquals("Unauthorized", alertTitle.getText().trim());
+	}
 }
 
 
