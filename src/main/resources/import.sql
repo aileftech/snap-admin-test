@@ -1577,3 +1577,6 @@ UPDATE products SET image = X'FFD8FFE000104A46494600010100000100010000FFE2023449
 UPDATE products SET eco_friendly = TRUE WHERE id IN (1, 2, 3, 4, 5, 6, 7, 8, 66);
 UPDATE products SET created_at = '2022-07-01T10:00:01' WHERE id IN (1, 2, 3, 4, 5, 6, 7, 8, 66);
 
+INSERT INTO inventory (id, name, available, created_at) VALUES (1, 'Test 1', true, '2021-09-22T15:30:10');
+INSERT INTO inventory (id, name, available, created_at) VALUES (2, 'Test 2', true, '2022-12-23T15:37:00');
+INSERT INTO inventory (id, name, available, created_at) VALUES (3, 'Test 3', true, '2021-09-36T11:30:00');
