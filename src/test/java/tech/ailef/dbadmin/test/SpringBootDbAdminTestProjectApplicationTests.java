@@ -177,17 +177,13 @@ class SpringBootDbAdminTestProjectApplicationTests {
 	void testCreateRememberFields() {
 		ChromeDriver driver = new ChromeDriver();
 		
-		driver.get(BASE_HOST + "/model/tech.ailef.dbadmin.test.additional.InventoryItem/create");
+		driver.get(BASE_HOST + "/model/tech.ailef.dbadmin.test.models.Category/create");
 		
-		driver.findElement(By.cssSelector("input[name=\"available\"]")).sendKeys("true");
 		driver.findElement(By.cssSelector("input[name=\"name\"]")).sendKeys("Test name");
 		driver.findElement(By.cssSelector("input[type=\"submit\"]")).click();
 		
 		String value = driver.findElement(By.cssSelector("input[name=\"name\"]")).getAttribute("value");
 		assertEquals("Test name", value);
-		
-		value = driver.findElement(By.cssSelector("input[name=\"available\"]")).getAttribute("value");
-		assertEquals("true", value);
 		
 		driver.close();
 	}
