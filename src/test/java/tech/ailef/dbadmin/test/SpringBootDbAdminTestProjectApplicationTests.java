@@ -526,6 +526,52 @@ class SpringBootDbAdminTestProjectApplicationTests {
 		
 		driver.close();
 	}
+	
+	/**
+	 * Tests that the DELETE options is actually disabled both on the 
+	 * front end (additional CSS class applied) and on the back end
+	 * (if DELETE request sent anyway, it fails).
+	 */
+	@Test
+	void testDisableDelete() {
+		ChromeDriver driver = new ChromeDriver();
+		
+		driver.get(BASE_HOST + "/model/tech.ailef.dbadmin.test.models.OrderLine");
+		List<WebElement> checks = driver.findElements(By.cssSelector("input[type=\"checkbox\"]"));
+		for (WebElement c : checks) {
+			assertTrue(c.getAttribute("class").contains("disable"));
+		}
+		
+		List<WebElement> forms = driver.findElements(By.cssSelector("form.delete-form"));
+		for (WebElement f : forms) {
+			WebElement button = f.findElement(By.tagName("button"));
+			assertTrue(button.getAttribute("class").contains("disable"));
+		}
+		
+		// Test also in the Product show page where OrderLines are
+		// displayed because of the OneToMany relationship
+		driver.get(BASE_HOST + "/model/tech.ailef.dbadmin.test.models.Product/show/1");
+		WebElement orderLineTable = driver.findElements(By.tagName("table")).get(2);
+		forms = orderLineTable.findElements(By.cssSelector("form.delete-form"));
+		for (WebElement f : forms) {
+			WebElement button = f.findElement(By.tagName("button"));
+			assertTrue(button.getAttribute("class").contains("disable"));
+		}
+		
+		// Even if disabled, submit the form anyway via Javascript and check
+		// that we are redirected to the correct error
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("arguments[0].submit()", forms.get(0));
+		
+		List<WebElement> alerts = driver.findElements(By.cssSelector(".alert-danger"));
+		assertFalse(alerts.isEmpty());
+		
+		WebElement alert = alerts.get(0);
+		String errorMessage = alert.findElement(By.tagName("p")).getText();
+		assertEquals("DELETE operations have been disabled on this table.", errorMessage.trim());
+		
+		driver.close();
+	}
 }
 
 
