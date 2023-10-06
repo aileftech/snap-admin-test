@@ -1,9 +1,10 @@
 package tech.ailef.dbadmin.test.additional;
 
+import java.util.Calendar;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import tech.ailef.dbadmin.external.annotations.ReadOnly;
 
 @Entity
 @Table(name="inventory")
@@ -14,6 +15,8 @@ public class InventoryItem {
 	private String name;
 	
 	private Boolean available;
+	
+	private Calendar createdAt;
 
 	public String getId() {
 		return id;
@@ -31,12 +34,22 @@ public class InventoryItem {
 		this.name = name;
 	}
 
-	public Boolean getAvailable() {
+	public Boolean isAvailable() {
 		return available;
 	}
 
 	public void setAvailable(Boolean available) {
 		this.available = available;
 	}
+
+	public Calendar getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Calendar createdAt) {
+		this.createdAt = createdAt;
+	}
+	
+	
 	
 }
