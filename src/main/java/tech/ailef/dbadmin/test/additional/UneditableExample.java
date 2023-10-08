@@ -1,5 +1,8 @@
 package tech.ailef.dbadmin.test.additional;
 
+import java.math.BigInteger;
+import java.sql.Date;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -14,8 +17,16 @@ public class UneditableExample {
 	
 	private String title;
 	
-	private int quantity;
+	private short quantity;
 
+	private BigInteger totalSales;
+	
+	private Date createdAt;
+	
+	private char category;
+	
+	private byte testByte;
+	
 	public String getId() {
 		return id;
 	}
@@ -32,12 +43,44 @@ public class UneditableExample {
 		this.title = title;
 	}
 
-	public int getQuantity() {
+	public short getQuantity() {
 		return quantity;
 	}
 
-	public void setQuantity(int quantity) {
+	public void setQuantity(short quantity) {
 		this.quantity = quantity;
+	}
+
+	public BigInteger getTotalSales() {
+		return totalSales;
+	}
+
+	public void setTotalSales(BigInteger totalSales) {
+		this.totalSales = totalSales;
+	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public char getCategory() {
+		return category;
+	}
+
+	public void setCategory(char category) {
+		this.category = category;
+	}
+
+	public byte getTestByte() {
+		return testByte;
+	}
+
+	public void setTestByte(byte testByte) {
+		this.testByte = testByte;
 	}
 	
 }
