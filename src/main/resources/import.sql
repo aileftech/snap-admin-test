@@ -1581,4 +1581,6 @@ INSERT INTO inventory (id, name, available, created_at) VALUES (1, 'Test 1', tru
 INSERT INTO inventory (id, name, available, created_at) VALUES (2, 'Test 2', true, '2022-12-23T15:37:00');
 INSERT INTO inventory (id, name, available, created_at) VALUES (3, 'Test 3', true, '2021-09-26T11:30:00');
 
-INSERT INTO uneditable (id, title, quantity) VALUES ('1', 'This object is not editable', 29), ('2', 'This object is not editable', 32);
+INSERT INTO uneditable (id, title, quantity, category, test_byte) VALUES ('1', 'This object is not editable', 29, 'A', 101), ('2', 'This object is not editable', 32, 'B', 20);
+
+
