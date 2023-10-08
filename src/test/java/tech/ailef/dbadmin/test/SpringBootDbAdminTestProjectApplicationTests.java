@@ -612,6 +612,8 @@ class SpringBootDbAdminTestProjectApplicationTests {
 		driver.get(BASE_HOST + "/model/tech.ailef.dbadmin.test.additional.UneditableExample/edit/1");
 		WebElement alertTitle = driver.findElement(By.cssSelector(".alert-danger h6"));
 		assertEquals("Unauthorized", alertTitle.getText().trim());
+		
+		driver.close();
 	}
 }
 
