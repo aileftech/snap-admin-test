@@ -13,6 +13,8 @@ import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import tech.ailef.dbadmin.external.annotations.DisplayFormat;
 import tech.ailef.dbadmin.external.annotations.DisplayImage;
 import tech.ailef.dbadmin.external.annotations.DisplayName;
@@ -29,10 +31,13 @@ public class Product {
 	
 	@Filterable
 	@Column(nullable = false)
+	@NotBlank
+	@Size(min = 3)
 	private String name;
 	
 	@Filterable
 	@Lob
+	@Size(min = 2, message = "Minimum 2 desc")
 	private String description;
 	
 	@DisplayFormat(format = "$%.2f")

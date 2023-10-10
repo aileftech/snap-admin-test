@@ -46,5 +46,10 @@ public class Cart {
 	public void setOwner(User owner) {
 		this.owner = owner;
 	}
+
+	@Override
+	public String toString() {
+		return "Cart [id=" + id + ", items=" + items + ", owner=" + owner + "]";
+	}
 	
 }
