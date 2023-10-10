@@ -7,7 +7,9 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -148,6 +150,60 @@ class SpringBootDbAdminTestProjectApplicationTests {
 		assertEquals("5 5", cols.get(3).text());
 		assertEquals("Oliver Williams", cols.get(4).text());
 		assertEquals("67.0", cols.get(5).text());
+	}
+	
+	/**
+	 * Tests that the object is created with the correct field
+	 * values or NULL if not provided 
+	 * @throws IOException
+	 */
+	@Test
+	void testCreate() throws IOException {
+		ChromeDriver driver = new ChromeDriver();
+		
+		Map<String, String> productData = new HashMap<>();
+		productData.put("id", "999");
+		productData.put("name", "Test product");
+		productData.put("price", "67.99");
+		productData.put("eco_friendly", "true");
+		
+		driver.get(BASE_HOST + "/model/tech.ailef.dbadmin.test.models.Product/create");
+		
+		for (String field : productData.keySet()) {
+			driver.findElement(By.cssSelector("input[name=\"" + field + "\"]")).sendKeys(productData.get(field));
+		}
+		
+		driver.findElement(By.cssSelector("textarea[name=\"description\"]")).sendKeys("Test description");
+		
+		driver.findElement(By.cssSelector("input[type=\"submit\"]")).click();
+		
+		List<WebElement> rows = 
+			driver.findElements(By.cssSelector("table")).get(0).findElements(By.cssSelector("tr"));
+	
+		int foundFields = 0;
+		for (WebElement row : rows) {
+			List<WebElement> cols = row.findElements(By.cssSelector("td"));
+			if (cols.isEmpty()) continue; // Skip header line, has <th>
+			
+			String fieldName = cols.get(1).getText();
+			String fieldValue = cols.get(2).getText();
+			
+			if (fieldName.equals("price")) {
+				assertEquals("$67.99", fieldValue);
+				foundFields++;
+			} else if (productData.containsKey(fieldName)) {
+				assertEquals(productData.get(fieldName), fieldValue);
+				foundFields++;
+			} else if (fieldName.equals("description")) {
+				assertEquals("Test description", fieldValue);
+			} else {
+				assertEquals("NULL", fieldValue);
+			}
+		}
+		
+		assertEquals(productData.size(), foundFields);
+		
+		driver.close();
 	}
 	
 	@Test
