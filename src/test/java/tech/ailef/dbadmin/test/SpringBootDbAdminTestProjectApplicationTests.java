@@ -33,9 +33,9 @@ class SpringBootDbAdminTestProjectApplicationTests {
 
 	private final Logger logger = Logger.getLogger(getClass().getName());
 	
-	private final String BASE_URL = "/admin";
+	private static final String DBADMIN_ROOT_PATH = "/admin";
 	
-	private final String BASE_HOST = "http://localhost:8080" + BASE_URL;
+	private static final String BASE_URL = "http://localhost:8080" + DBADMIN_ROOT_PATH;
 	
 	private final String[] CLASSES = {
 		"Cart",
@@ -49,13 +49,13 @@ class SpringBootDbAdminTestProjectApplicationTests {
 	};
 	
 	private final String[] TEST_200_OK_URLS = {
-		BASE_HOST + "/model/tech.ailef.dbadmin.test.models.Cart/show/1",
-		BASE_HOST + "/model/tech.ailef.dbadmin.test.models.Product/show/1",
-		BASE_HOST + "/model/tech.ailef.dbadmin.test.models.Order/show/42",
-		BASE_HOST + "/model/tech.ailef.dbadmin.test.models.User/show/3ccff81d-9f57-44b4-b414-5dc8bed05a28",
-		BASE_HOST + "/model/tech.ailef.dbadmin.test.models.Product?query=apple",
-		BASE_HOST + "/model/tech.ailef.dbadmin.test.models.Product?query=apple&page=3",
-		BASE_HOST + "/model/tech.ailef.dbadmin.test.models.Order?query=d7"
+		BASE_URL + "/model/tech.ailef.dbadmin.test.models.Cart/show/1",
+		BASE_URL + "/model/tech.ailef.dbadmin.test.models.Product/show/1",
+		BASE_URL + "/model/tech.ailef.dbadmin.test.models.Order/show/42",
+		BASE_URL + "/model/tech.ailef.dbadmin.test.models.User/show/3ccff81d-9f57-44b4-b414-5dc8bed05a28",
+		BASE_URL + "/model/tech.ailef.dbadmin.test.models.Product?query=apple",
+		BASE_URL + "/model/tech.ailef.dbadmin.test.models.Product?query=apple&page=3",
+		BASE_URL + "/model/tech.ailef.dbadmin.test.models.Order?query=d7"
 	};
 
 	@Test
@@ -75,15 +75,15 @@ class SpringBootDbAdminTestProjectApplicationTests {
 			String path = BASE_PACKAGE + "." + klass;
 
 			// Index page
-			Response resp = Jsoup.connect(BASE_HOST + "/model/" + path).execute();
+			Response resp = Jsoup.connect(BASE_URL + "/model/" + path).execute();
 			assertEquals(200, resp.statusCode());
 			
 			// Schema page
-			resp = Jsoup.connect(BASE_HOST + "/model/" + path + "/schema").execute();
+			resp = Jsoup.connect(BASE_URL + "/model/" + path + "/schema").execute();
 			assertEquals(200, resp.statusCode());
 			
 			// Create page
-			resp = Jsoup.connect(BASE_HOST + "/model/" + path + "/create").execute();
+			resp = Jsoup.connect(BASE_URL + "/model/" + path + "/create").execute();
 			assertEquals(200, resp.statusCode());
 		}
 		
@@ -97,7 +97,7 @@ class SpringBootDbAdminTestProjectApplicationTests {
 	@Test
 	void testShowPage() throws IOException {
 		logger.info("Testing show page");
-		Response resp = Jsoup.connect(BASE_HOST + "/model/tech.ailef.dbadmin.test.models.Product/show/1").execute();
+		Response resp = Jsoup.connect(BASE_URL + "/model/tech.ailef.dbadmin.test.models.Product/show/1").execute();
 		String content = resp.body();
 		Document document = Jsoup.parse(content);
 		
@@ -133,7 +133,7 @@ class SpringBootDbAdminTestProjectApplicationTests {
 	@Test
 	void testListPage() throws IOException {
 		Response resp = 
-			Jsoup.connect(BASE_HOST + "/model/tech.ailef.dbadmin.test.models.User?sortKey=id&sortOrder=DESC").execute();
+			Jsoup.connect(BASE_URL + "/model/tech.ailef.dbadmin.test.models.User?sortKey=id&sortOrder=DESC").execute();
 	
 		Document document = Jsoup.parse(resp.body());
 		Element table = document.selectFirst("table");
@@ -167,7 +167,7 @@ class SpringBootDbAdminTestProjectApplicationTests {
 		productData.put("price", "67.99");
 		productData.put("eco_friendly", "true");
 		
-		driver.get(BASE_HOST + "/model/tech.ailef.dbadmin.test.models.Product/create");
+		driver.get(BASE_URL + "/model/tech.ailef.dbadmin.test.models.Product/create");
 		
 		for (String field : productData.keySet()) {
 			driver.findElement(By.cssSelector("input[name=\"" + field + "\"]")).sendKeys(productData.get(field));
@@ -210,7 +210,7 @@ class SpringBootDbAdminTestProjectApplicationTests {
 	void testEditPageFrontEnd() throws IOException {
 		Document document = 
 			Jsoup.parse(
-				Jsoup.connect(BASE_HOST + "/model/tech.ailef.dbadmin.test.models.User/edit/3ccff81d-9f57-44b4-b414-5dc8bed05a28")
+				Jsoup.connect(BASE_URL + "/model/tech.ailef.dbadmin.test.models.User/edit/3ccff81d-9f57-44b4-b414-5dc8bed05a28")
 				     .execute().body()
 			);
 		
@@ -228,7 +228,7 @@ class SpringBootDbAdminTestProjectApplicationTests {
 	void testEdit() throws IOException {
 		ChromeDriver driver = new ChromeDriver();
 		
-		driver.get(BASE_HOST + "/model/tech.ailef.dbadmin.test.models.User/edit/24e137ba-d5b5-4ca7-aad1-5359463e0a53");
+		driver.get(BASE_URL + "/model/tech.ailef.dbadmin.test.models.User/edit/24e137ba-d5b5-4ca7-aad1-5359463e0a53");
 		WebElement nameElement = driver.findElement(By.cssSelector("input[name=\"name\"]"));
 		nameElement.sendKeys("a");
 		
@@ -273,7 +273,7 @@ class SpringBootDbAdminTestProjectApplicationTests {
 	void testCreateRememberFields() {
 		ChromeDriver driver = new ChromeDriver();
 		
-		driver.get(BASE_HOST + "/model/tech.ailef.dbadmin.test.models.Category/create");
+		driver.get(BASE_URL + "/model/tech.ailef.dbadmin.test.models.Category/create");
 		
 		driver.findElement(By.cssSelector("input[name=\"name\"]")).sendKeys("Test name");
 		driver.findElement(By.cssSelector("input[type=\"submit\"]")).click();
@@ -298,14 +298,14 @@ class SpringBootDbAdminTestProjectApplicationTests {
 				+ " cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
 		
 		String body = 
-			Jsoup.connect(BASE_HOST + "/download/tech.ailef.dbadmin.test.models.Product/thumbnailImage/1")
+			Jsoup.connect(BASE_URL + "/download/tech.ailef.dbadmin.test.models.Product/thumbnailImage/1")
 				 .execute().body();
 		assertEquals(body.trim(), loremIpsum);
 		
 		// Test 404 with wrong ID
 		try {
 			body = 
-				Jsoup.connect(BASE_HOST + "/download/tech.ailef.dbadmin.test.models.Product/thumbnailImage/3")
+				Jsoup.connect(BASE_URL + "/download/tech.ailef.dbadmin.test.models.Product/thumbnailImage/3")
 					 .execute().body();
 			throw new RuntimeException("Request should've generated 404 error");
 		} catch (HttpStatusException e) {
@@ -315,7 +315,7 @@ class SpringBootDbAdminTestProjectApplicationTests {
 		// Test 404 with wrong field name
 		try {
 			body = 
-				Jsoup.connect(BASE_HOST + "/download/tech.ailef.dbadmin.test.models.Product/missingField/3")
+				Jsoup.connect(BASE_URL + "/download/tech.ailef.dbadmin.test.models.Product/missingField/3")
 					 .execute().body();
 		} catch (HttpStatusException e) {
 			assertEquals(404, e.getStatusCode());
@@ -326,7 +326,7 @@ class SpringBootDbAdminTestProjectApplicationTests {
 	@Test
 	void testFacetedSearch() throws IOException {
 		Document document = Jsoup.parse(
-			Jsoup.connect(BASE_HOST + "/model/tech.ailef.dbadmin.test.models.Product?"
+			Jsoup.connect(BASE_URL + "/model/tech.ailef.dbadmin.test.models.Product?"
 					+ "page=1&pageSize=50&query=&filter_field=description&filter_op=contains&filter_value=128")
 				.execute().body()
 		);
@@ -337,7 +337,7 @@ class SpringBootDbAdminTestProjectApplicationTests {
 		
 		// Test url with remove filter parameters
 		document = Jsoup.parse(
-			Jsoup.connect(BASE_HOST + "/model/tech.ailef.dbadmin.test.models.Product?"
+			Jsoup.connect(BASE_URL + "/model/tech.ailef.dbadmin.test.models.Product?"
 				+ "page=1&pageSize=50&query=&filter_field=description&filter_op=contains&filter_value=128&"
 				+ "remove_field=description&remove_op=contains&remove_value=128")
 				.execute().body()
@@ -354,7 +354,7 @@ class SpringBootDbAdminTestProjectApplicationTests {
 		
 		// Test links in list page
 		for (String klass : CLASSES) {
-			driver.get(BASE_HOST + "/model/tech.ailef.dbadmin.test.models." + klass);
+			driver.get(BASE_URL + "/model/tech.ailef.dbadmin.test.models." + klass);
 			List<WebElement> links = driver.findElements(By.cssSelector("a"));
 			List<String> urls = links.stream().map(l -> l.getAttribute("href"))
 						.limit(25)
@@ -372,7 +372,7 @@ class SpringBootDbAdminTestProjectApplicationTests {
 		// Test links in show page
 		for (String klass : CLASSES) {
 			String testId = klass.equals("User") ? "24e137ba-d5b5-4ca7-aad1-5359463e0a53" : "1";
-			String editUrl = BASE_HOST + "/model/" + BASE_PACKAGE +  "." + klass + "/show/" + testId;
+			String editUrl = BASE_URL + "/model/" + BASE_PACKAGE +  "." + klass + "/show/" + testId;
 			
 			driver.get(editUrl);
 			List<WebElement> links = driver.findElements(By.tagName("a"));
@@ -396,7 +396,7 @@ class SpringBootDbAdminTestProjectApplicationTests {
 	void testAutocomplete() throws IOException, InterruptedException {
 		ChromeDriver driver = new ChromeDriver();
 		
-		driver.get(BASE_HOST + "/model/tech.ailef.dbadmin.test.models.OrderLine/edit/1");
+		driver.get(BASE_URL + "/model/tech.ailef.dbadmin.test.models.OrderLine/edit/1");
 		// Send the string "nok" and check that Nokia results appear
 		driver.findElement(By.cssSelector("input[name=\"product_id\"]")).clear();
 		driver.findElement(By.cssSelector("input[name=\"product_id\"]")).sendKeys("nok");
@@ -424,10 +424,10 @@ class SpringBootDbAdminTestProjectApplicationTests {
 		// Edit product id 41 and then check that the edit appears in the logs
 		ChromeDriver driver = new ChromeDriver();
 		
-		driver.get(BASE_HOST + "/model/tech.ailef.dbadmin.test.models.Product/edit/41");
+		driver.get(BASE_URL + "/model/tech.ailef.dbadmin.test.models.Product/edit/41");
 		driver.findElement(By.cssSelector("#__id_name")).sendKeys("A");
 		driver.findElement(By.cssSelector("input[type=\"submit\"]")).click();
-		driver.get(BASE_HOST + "/logs?actionType=Any&table=Any&itemId=41");
+		driver.get(BASE_URL + "/logs?actionType=Any&table=Any&itemId=41");
 		
 		WebElement row = driver.findElements(By.cssSelector("tr")).get(1);
 		List<WebElement> cols = row.findElements(By.cssSelector("td"));
@@ -442,10 +442,10 @@ class SpringBootDbAdminTestProjectApplicationTests {
 	void testEmptyCreateEdit() throws InterruptedException, IOException {
 		ChromeDriver driver = new ChromeDriver();
 
-		driver.get(BASE_HOST);
+		driver.get(BASE_URL);
 		
 		for (String klass : CLASSES) {
-			String createUrl = BASE_HOST + "/model/" + BASE_PACKAGE +  "." + klass + "/create";
+			String createUrl = BASE_URL + "/model/" + BASE_PACKAGE +  "." + klass + "/create";
 			logger.info("Testing empty create for " + createUrl);
 			
 			driver.get(createUrl);
@@ -455,7 +455,7 @@ class SpringBootDbAdminTestProjectApplicationTests {
 		
 		for (String klass : CLASSES) {
 			String testId = klass.equals("User") ? "24e137ba-d5b5-4ca7-aad1-5359463e0a53" : "1";
-			String editUrl = BASE_HOST + "/model/" + BASE_PACKAGE +  "." + klass + "/edit/" + testId;
+			String editUrl = BASE_URL + "/model/" + BASE_PACKAGE +  "." + klass + "/edit/" + testId;
 			logger.info("Testing no-modifications edit for " + editUrl);
 			
 			driver.get(editUrl);
@@ -466,7 +466,7 @@ class SpringBootDbAdminTestProjectApplicationTests {
 		logger.info("Testing no changes applied after no-modification edits");
 		for (String klass : CLASSES) {
 			String testId = klass.equals("User") ? "24e137ba-d5b5-4ca7-aad1-5359463e0a53" : "1";
-			String showUrl = BASE_HOST + "/model/" + BASE_PACKAGE +  "." + klass + "/show/" + testId;
+			String showUrl = BASE_URL + "/model/" + BASE_PACKAGE +  "." + klass + "/show/" + testId;
 			
 			if (klass.endsWith("Product")) {
 				String[] colValues = 
@@ -489,7 +489,7 @@ class SpringBootDbAdminTestProjectApplicationTests {
 	void testSearch() {
 		ChromeDriver driver = new ChromeDriver();
 
-		driver.get(BASE_HOST + "/model/tech.ailef.dbadmin.test.models.Product?query=App&page=1&pageSize=50");
+		driver.get(BASE_URL + "/model/tech.ailef.dbadmin.test.models.Product?query=App&page=1&pageSize=50");
 		List<WebElement> elements = driver.findElements(By.cssSelector("tr"));
 		assertEquals(6, elements.size());
 		
@@ -507,27 +507,27 @@ class SpringBootDbAdminTestProjectApplicationTests {
 		ChromeDriver driver = new ChromeDriver();
 		
 		// List page
-		driver.get(BASE_HOST + "/model/tech.ailef.dbadmin.test.models.User");
+		driver.get(BASE_URL + "/model/tech.ailef.dbadmin.test.models.User");
 		List<WebElement> ths = driver.findElements(By.cssSelector("th"));
 		for (WebElement th : ths) {
 			assertEquals(true, !th.getText().contains("password"));
 		}
 		
 		// Detail page
-		driver.get(BASE_HOST + "/model/tech.ailef.dbadmin.test.models.User/show/24e137ba-d5b5-4ca7-aad1-5359463e0a53");
+		driver.get(BASE_URL + "/model/tech.ailef.dbadmin.test.models.User/show/24e137ba-d5b5-4ca7-aad1-5359463e0a53");
 		List<WebElement> tds = driver.findElements(By.cssSelector("td"));
 		for (WebElement td : tds) {
 			assertEquals(true, !td.getText().contains("password"));
 		}
 		
 		// Test edit page
-		driver.get(BASE_HOST + "/model/tech.ailef.dbadmin.test.models.User/edit/24e137ba-d5b5-4ca7-aad1-5359463e0a53");
+		driver.get(BASE_URL + "/model/tech.ailef.dbadmin.test.models.User/edit/24e137ba-d5b5-4ca7-aad1-5359463e0a53");
 		
 		WebElement element = driver.findElement(By.id("__id_password"));
 		assertNotNull(element);
 
 		// Test create page
-		driver.get(BASE_HOST + "/model/tech.ailef.dbadmin.test.models.User/create");
+		driver.get(BASE_URL + "/model/tech.ailef.dbadmin.test.models.User/create");
 		element = driver.findElement(By.id("__id_password"));
 		assertNotNull(element);
 		
@@ -542,12 +542,12 @@ class SpringBootDbAdminTestProjectApplicationTests {
 	void testReadOnlyFrontEnd() {
 		ChromeDriver driver = new ChromeDriver();
 		
-		driver.get(BASE_HOST + "/model/tech.ailef.dbadmin.test.models.Product/edit/31");
+		driver.get(BASE_URL + "/model/tech.ailef.dbadmin.test.models.Product/edit/31");
 		WebElement createdAtInput = driver.findElement(By.cssSelector("input[name=\"created_at\"]"));
 		String cssClass = createdAtInput.getAttribute("class");
 		assertTrue(cssClass.contains("disable"));
 		
-		driver.get(BASE_HOST + "/model/tech.ailef.dbadmin.test.models.Product/create");
+		driver.get(BASE_URL + "/model/tech.ailef.dbadmin.test.models.Product/create");
 		createdAtInput = driver.findElement(By.cssSelector("input[name=\"created_at\"]"));
 		cssClass = createdAtInput.getAttribute("class");
 		assertFalse(cssClass.contains("disable"));
@@ -565,7 +565,7 @@ class SpringBootDbAdminTestProjectApplicationTests {
 
         JavascriptExecutor js = (JavascriptExecutor) driver;
 		
-		driver.get(BASE_HOST + "/model/tech.ailef.dbadmin.test.models.Product/edit/7");
+		driver.get(BASE_URL + "/model/tech.ailef.dbadmin.test.models.Product/edit/7");
 		WebElement createdAtInput = driver.findElement(By.cssSelector("input[name=\"created_at\"]"));
 		js.executeScript("arguments[0].value = '2052-07-01T10:00:01';", createdAtInput);
 		driver.findElement(By.cssSelector("input[type=\"submit\"]")).click();
@@ -586,7 +586,7 @@ class SpringBootDbAdminTestProjectApplicationTests {
 	void testMappingErrors() {
 		ChromeDriver driver = new ChromeDriver();
 		
-		driver.get(BASE_HOST + "/");
+		driver.get(BASE_URL + "/");
 		
 		WebElement secondTable = driver.findElements(By.tagName("table")).get(1);
 		WebElement warningCol = secondTable.findElement(By.cssSelector("td.warning-col"));
@@ -628,7 +628,7 @@ class SpringBootDbAdminTestProjectApplicationTests {
 	void testDisableDelete() {
 		ChromeDriver driver = new ChromeDriver();
 		
-		driver.get(BASE_HOST + "/model/tech.ailef.dbadmin.test.models.OrderLine");
+		driver.get(BASE_URL + "/model/tech.ailef.dbadmin.test.models.OrderLine");
 		List<WebElement> checks = driver.findElements(By.cssSelector("input[type=\"checkbox\"]"));
 		for (WebElement c : checks) {
 			assertTrue(c.getAttribute("class").contains("disable"));
@@ -642,7 +642,7 @@ class SpringBootDbAdminTestProjectApplicationTests {
 		
 		// Test also in the Product show page where OrderLines are
 		// displayed because of the OneToMany relationship
-		driver.get(BASE_HOST + "/model/tech.ailef.dbadmin.test.models.Product/show/1");
+		driver.get(BASE_URL + "/model/tech.ailef.dbadmin.test.models.Product/show/1");
 		WebElement orderLineTable = driver.findElements(By.tagName("table")).get(2);
 		forms = orderLineTable.findElements(By.cssSelector("form.delete-form"));
 		for (WebElement f : forms) {
@@ -675,16 +675,16 @@ class SpringBootDbAdminTestProjectApplicationTests {
 		ChromeDriver driver = new ChromeDriver();
 
 		// List page
-		driver.get(BASE_HOST + "/model/tech.ailef.dbadmin.test.additional.InventoryItem");
+		driver.get(BASE_URL + "/model/tech.ailef.dbadmin.test.additional.InventoryItem");
 		WebElement createLink = driver.findElement(By.cssSelector("h3.create-button a"));
 		assertTrue(createLink.getAttribute("class").contains("disable"));
 		
 		// Schema page
-		driver.get(BASE_HOST + "/model/tech.ailef.dbadmin.test.additional.InventoryItem/schema");
+		driver.get(BASE_URL + "/model/tech.ailef.dbadmin.test.additional.InventoryItem/schema");
 		createLink = driver.findElement(By.cssSelector("h3.create-button a"));
 		assertTrue(createLink.getAttribute("class").contains("disable"));
 		
-		driver.get(BASE_HOST + "/model/tech.ailef.dbadmin.test.additional.InventoryItem/create");
+		driver.get(BASE_URL + "/model/tech.ailef.dbadmin.test.additional.InventoryItem/create");
 		WebElement alertTitle = driver.findElement(By.cssSelector(".alert-danger h6"));
 		assertEquals("Unauthorized", alertTitle.getText().trim());
 		
@@ -701,11 +701,11 @@ class SpringBootDbAdminTestProjectApplicationTests {
 		ChromeDriver driver = new ChromeDriver();
 		
 		// List page
-		driver.get(BASE_HOST + "/model/tech.ailef.dbadmin.test.additional.UneditableExample");
+		driver.get(BASE_URL + "/model/tech.ailef.dbadmin.test.additional.UneditableExample");
 		WebElement createLink = driver.findElement(By.cssSelector(".row-icons a"));
 		assertTrue(createLink.getAttribute("class").contains("disable"));
 		
-		driver.get(BASE_HOST + "/model/tech.ailef.dbadmin.test.additional.UneditableExample/edit/1");
+		driver.get(BASE_URL + "/model/tech.ailef.dbadmin.test.additional.UneditableExample/edit/1");
 		WebElement alertTitle = driver.findElement(By.cssSelector(".alert-danger h6"));
 		assertEquals("Unauthorized", alertTitle.getText().trim());
 		
