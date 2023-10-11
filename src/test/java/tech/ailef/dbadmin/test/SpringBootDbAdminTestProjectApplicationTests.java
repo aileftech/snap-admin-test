@@ -207,7 +207,7 @@ class SpringBootDbAdminTestProjectApplicationTests {
 	}
 	
 	@Test
-	void testEditPage() throws IOException {
+	void testEditPageFrontEnd() throws IOException {
 		Document document = 
 			Jsoup.parse(
 				Jsoup.connect(BASE_HOST + "/model/tech.ailef.dbadmin.test.models.User/edit/3ccff81d-9f57-44b4-b414-5dc8bed05a28")
@@ -222,6 +222,46 @@ class SpringBootDbAdminTestProjectApplicationTests {
 		
 		String name = document.selectFirst("input[name=\"name\"]").val();
 		assertEquals("Ethan Anderson", name);
+	}
+	
+	@Test
+	void testEdit() throws IOException {
+		ChromeDriver driver = new ChromeDriver();
+		
+		driver.get(BASE_HOST + "/model/tech.ailef.dbadmin.test.models.User/edit/24e137ba-d5b5-4ca7-aad1-5359463e0a53");
+		WebElement nameElement = driver.findElement(By.cssSelector("input[name=\"name\"]"));
+		nameElement.sendKeys("a");
+		
+		driver.findElement(By.cssSelector("input[type=\"submit\"]")).click();
+		
+		Map<String, String> userData = new HashMap<>();
+		userData.put("id", "24e137ba-d5b5-4ca7-aad1-5359463e0a53");
+		userData.put("cart_id", "9\n9");
+		userData.put("name", "Olivia Evansa");
+		userData.put("number_of_orders", "46.0");
+		
+		List<WebElement> rows = 
+			driver.findElements(By.cssSelector("table")).get(0).findElements(By.cssSelector("tr"));
+		
+		int foundFields = 0;
+		for (WebElement row : rows) {
+			List<WebElement> cols = row.findElements(By.cssSelector("td"));
+			if (cols.isEmpty()) continue; // Skip header line, has <th>
+			
+			String fieldName = cols.get(1).getText();
+			String fieldValue = cols.get(2).getText();
+			
+			if (userData.containsKey(fieldName)) {
+				foundFields++;
+				assertEquals(userData.get(fieldName), fieldValue);
+			}
+
+		}
+
+		assertEquals(userData.size(), foundFields);
+
+		
+//		driver.close();
 	}
 	
 	/**
@@ -399,7 +439,7 @@ class SpringBootDbAdminTestProjectApplicationTests {
 	}
 	
 	@Test
-	void testCreateEdit() throws InterruptedException, IOException {
+	void testEmptyCreateEdit() throws InterruptedException, IOException {
 		ChromeDriver driver = new ChromeDriver();
 
 		driver.get(BASE_HOST);
