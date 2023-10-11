@@ -29,15 +29,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class SpringBootDbAdminTestProjectApplicationTests {
 	
-	private final String BASE_PACKAGE = "tech.ailef.dbadmin.test.models";
+	private static final String BASE_PACKAGE = "tech.ailef.dbadmin.test.models";
 
-	private final Logger logger = Logger.getLogger(getClass().getName());
+	private static final Logger logger = Logger.getLogger(SpringBootDbAdminTestProjectApplicationTests.class.getName());
 	
 	private static final String DBADMIN_ROOT_PATH = "/admin";
 	
 	private static final String BASE_URL = "http://localhost:8080" + DBADMIN_ROOT_PATH;
 	
-	private final String[] CLASSES = {
+	private static final String[] CLASSES = {
 		"Cart",
 		"CartItem",
 		"Product",
@@ -48,7 +48,7 @@ class SpringBootDbAdminTestProjectApplicationTests {
 		"Tag"
 	};
 	
-	private final String[] TEST_200_OK_URLS = {
+	private static final String[] TEST_200_OK_URLS = {
 		BASE_URL + "/model/tech.ailef.dbadmin.test.models.Cart/show/1",
 		BASE_URL + "/model/tech.ailef.dbadmin.test.models.Product/show/1",
 		BASE_URL + "/model/tech.ailef.dbadmin.test.models.Order/show/42",
