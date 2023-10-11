@@ -732,6 +732,39 @@ class SpringBootDbAdminTestProjectApplicationTests {
 		
 		driver.close();
 	}
+	
+	/**
+	 * Tests that we can correctly add entries to a many to many relationship
+	 * on the edit page, using the autocomplete form.
+	 * @throws InterruptedException
+	 */
+	@Test
+	void testSetManyToMany() throws InterruptedException {
+		ChromeDriver driver = new ChromeDriver();
+		driver.get(BASE_URL + "/model/tech.ailef.dbadmin.test.models.Category/edit/2");
+		
+		driver.findElement(By.cssSelector("input[name=\"products[]\"]")).sendKeys("iPhone 12");
+		Thread.sleep(200);
+		driver.findElement(By.cssSelector(".suggestions .suggestion")).click();
+		driver.findElement(By.tagName("body")).click();
+		Thread.sleep(200);
+		driver.findElement(By.cssSelector("input[name=\"products[]\"]")).sendKeys("Samsung Galaxy S21");
+		Thread.sleep(200);
+		driver.findElement(By.cssSelector(".suggestions .suggestion")).click();
+		driver.findElement(By.tagName("body")).click();
+		Thread.sleep(200);
+		driver.findElement(By.cssSelector("input[type=\"submit\"]")).click();
+		
+		WebElement table = driver.findElements(By.tagName("table")).get(1);
+		List<WebElement> rows = table.findElements(By.tagName("tr"));
+		WebElement nameColumn = rows.get(1).findElements(By.tagName("td")).get(2);
+		assertEquals("iPhone 12", nameColumn.getText());
+		
+		nameColumn = rows.get(2).findElements(By.tagName("td")).get(2);
+		assertEquals("Samsung Galaxy S21", nameColumn.getText());
+		
+		driver.close();
+	}
 }
 
 
