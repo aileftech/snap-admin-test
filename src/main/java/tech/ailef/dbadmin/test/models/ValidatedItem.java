@@ -1,6 +1,10 @@
 package tech.ailef.dbadmin.test.models;
 
+import java.util.UUID;
+
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.Min;
@@ -10,7 +14,8 @@ import jakarta.validation.constraints.Size;
 @Entity
 public class ValidatedItem {
 	@Id
-	private String id;
+	@GeneratedValue(strategy = GenerationType.UUID)
+	private UUID id;
 	
 	@ManyToOne
 	@NotNull
@@ -24,11 +29,11 @@ public class ValidatedItem {
 	@NotNull
 	private Integer number;
 
-	public String getId() {
+	public UUID getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(UUID id) {
 		this.id = id;
 	}
 

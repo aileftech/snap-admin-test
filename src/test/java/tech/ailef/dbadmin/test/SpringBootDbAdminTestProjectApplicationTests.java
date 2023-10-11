@@ -365,9 +365,7 @@ class SpringBootDbAdminTestProjectApplicationTests {
 				driver.get(url);
 				assertFalse(driver.findElement(By.tagName("body")).getText().contains("Whitelabel Error Page"));
 			}
-		
 		}
-		
 		
 		// Test links in show page
 		for (String klass : CLASSES) {
@@ -708,6 +706,29 @@ class SpringBootDbAdminTestProjectApplicationTests {
 		driver.get(BASE_URL + "/model/tech.ailef.dbadmin.test.additional.UneditableExample/edit/1");
 		WebElement alertTitle = driver.findElement(By.cssSelector(".alert-danger h6"));
 		assertEquals("Unauthorized", alertTitle.getText().trim());
+		
+		driver.close();
+	}
+	
+	/**
+	 * Sends an empty form on an item that has validation on its fields.
+	 * Checks that the resulting page shows the validation errors.
+	 */
+	@Test
+	void testValidationOnCreate() {
+		ChromeDriver driver = new ChromeDriver();
+
+		driver.get(BASE_URL + "/model/tech.ailef.dbadmin.test.models.ValidatedItem/create");
+		driver.findElement(By.cssSelector("input[type=\"submit\"]")).click();
+		
+		List<WebElement> invalidDivs = driver.findElements(By.cssSelector("div.invalid"));
+		// Check that all 3 fields have the invalid class
+		assertEquals(3, invalidDivs.size());
+		
+		for (WebElement fieldDiv : invalidDivs) {
+			WebElement findElement = fieldDiv.findElement(By.cssSelector(".text-red"));
+			assertEquals("must not be null", findElement.getText());
+		}
 		
 		driver.close();
 	}
