@@ -21,6 +21,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ElementClickInterceptedException;
 import org.openqa.selenium.JavascriptExecutor;
@@ -794,6 +795,22 @@ class SpringBootDbAdminTestProjectApplicationTests {
 		nameColumn = rows.get(2).findElements(By.tagName("td")).get(2);
 		assertEquals("Samsung Galaxy S21", nameColumn.getText());
 		
+		driver.close();
+	}
+	
+	@Test
+	void testDelete() throws InterruptedException {
+		ChromeDriver driver = new ChromeDriver();
+		
+		driver.get(BASE_URL + "/model/tech.ailef.dbadmin.test.models.CartItem");
+		driver.findElement(By.cssSelector("form.delete-form")).submit();
+		
+		Thread.sleep(100);
+		Alert alert = driver.switchTo().alert();
+		alert.accept();
+		
+		driver.get(BASE_URL + "/model/tech.ailef.dbadmin.test.models.CartItem/show/1");
+		assertEquals(true, driver.findElement(By.tagName("body")).getText().contains("404 Error"));
 		driver.close();
 	}
 }
