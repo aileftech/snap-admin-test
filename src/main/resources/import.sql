@@ -1582,5 +1582,5 @@ INSERT INTO inventory (id, name, available, created_at) VALUES (2, 'Test 2', tru
 INSERT INTO inventory (id, name, available, created_at) VALUES (3, 'Test 3', true, '2021-09-26T11:30:00');
 
 INSERT INTO uneditable (id, title, quantity, category, test_byte) VALUES ('1', 'This object is not editable', 29, 'A', 101), ('2', 'This object is not editable', 32, 'B', 20);
-
+INSERT INTO validated_item (id, cart_id, name, number) VALUES (X'1957447AA2FE4203A055197235F5EDB9', 3, 'Test name', 34);
 
