@@ -262,9 +262,8 @@ class SpringBootDbAdminTestProjectApplicationTests {
 		}
 
 		assertEquals(userData.size(), foundFields);
-
 		
-//		driver.close();
+		driver.close();
 	}
 	
 	/**
