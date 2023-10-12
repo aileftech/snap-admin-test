@@ -734,6 +734,32 @@ class SpringBootDbAdminTestProjectApplicationTests {
 	}
 	
 	/**
+	 * Checks that the validation works on edit pages
+	 */
+	@Test
+	void testValidationOnEdit() {
+		ChromeDriver driver = new ChromeDriver();
+
+		driver.get(BASE_URL + "/model/tech.ailef.dbadmin.test.models.ValidatedItem/edit/1957447a-a2fe-4203-a055-197235f5edb9");
+		
+		// Set a short name that should fail validation
+		driver.findElement(By.cssSelector("input[name=\"name\"]")).clear();
+		driver.findElement(By.cssSelector("input[name=\"name\"]")).sendKeys("NO");
+		
+		driver.findElement(By.cssSelector("input[type=\"submit\"]")).click();
+		
+		List<WebElement> invalidDivs = driver.findElements(By.cssSelector("div.invalid"));
+		assertEquals(1, invalidDivs.size());
+		
+		for (WebElement fieldDiv : invalidDivs) {
+			WebElement findElement = fieldDiv.findElement(By.cssSelector(".text-red"));
+			assertEquals("Name must be 5-10 characters", findElement.getText());
+		}
+		
+		driver.close();
+	}
+	
+	/**
 	 * Tests that we can correctly add entries to a many to many relationship
 	 * on the edit page, using the autocomplete form.
 	 * @throws InterruptedException
