@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
@@ -21,6 +22,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.ElementClickInterceptedException;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -676,11 +678,14 @@ class SpringBootDbAdminTestProjectApplicationTests {
 		driver.get(BASE_URL + "/model/tech.ailef.dbadmin.test.additional.InventoryItem");
 		WebElement createLink = driver.findElement(By.cssSelector("h3.create-button a"));
 		assertTrue(createLink.getAttribute("class").contains("disable"));
+		assertThrows(ElementClickInterceptedException.class, () -> createLink.click());
 		
 		// Schema page
 		driver.get(BASE_URL + "/model/tech.ailef.dbadmin.test.additional.InventoryItem/schema");
-		createLink = driver.findElement(By.cssSelector("h3.create-button a"));
-		assertTrue(createLink.getAttribute("class").contains("disable"));
+		WebElement otherCreateLink = driver.findElement(By.cssSelector("h3.create-button a"));
+		assertThrows(ElementClickInterceptedException.class, () -> otherCreateLink.click());
+		
+		assertTrue(otherCreateLink.getAttribute("class").contains("disable"));
 		
 		driver.get(BASE_URL + "/model/tech.ailef.dbadmin.test.additional.InventoryItem/create");
 		WebElement alertTitle = driver.findElement(By.cssSelector(".alert-danger h6"));
