@@ -16,7 +16,8 @@ Before you begin running this project, please ensure that you have the following
 Apache Maven is a powerful project management and build automation tool. It is used for building and managing Java projects, including this one.
 
 ### [Docker](https://www.docker.com)
-Docker is a containerization platform that allows you to package, distribute, and run applications in lightweight, isolated containers.
+It's not mandatory to have Docker installed, but for ease of use we provide a docker-compose file that will start a MySQL instance. If you don't want
+to use Docker, you will need to customize the `application.properties` file in order to connect to your own database.
 
 
 ## 🛠️ Run the Program
@@ -36,6 +37,9 @@ Docker is a containerization platform that allows you to package, distribute, an
     ```sh
     docker-compose -f docker-compose.yaml up
     ```
+
+    If you decided not to use Docker, check the `application.properties` file and configure the datasource properly. You can also use an H2
+    embedded database which doesn't require starting a server.
 
   - Run the following command in the terminal: 
 
