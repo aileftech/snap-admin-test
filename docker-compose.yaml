@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+
+  db:
+    container_name: aileftech-mysql
+    image: mysql:latest
+
+    volumes:
+      - mysql_data_volume:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE : sbdap
+      MYSQL_USERNAME : root
+      MYSQL_ROOT_PASSWORD: test@123
+    ports:
+      - 3306:3306
+
+volumes:
+  mysql_data_volume: {}
