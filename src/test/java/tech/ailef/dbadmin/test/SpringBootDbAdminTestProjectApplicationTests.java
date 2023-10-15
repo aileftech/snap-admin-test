@@ -333,7 +333,7 @@ class SpringBootDbAdminTestProjectApplicationTests {
 				.execute().body()
 		);
 		
-		Elements filters = document.select("span.active-filter");
+		Elements filters = document.select(".filterable-fields span.active-filter");
 		assertEquals(1, filters.size());
 		assertEquals("'description' Contains '128'", filters.get(0).text());
 		
@@ -346,8 +346,6 @@ class SpringBootDbAdminTestProjectApplicationTests {
 		);
 		filters = document.select("span.active-filter");
 		assertEquals(0, filters.size());
-		
-			
 	}
 
 	@Test
@@ -629,7 +627,7 @@ class SpringBootDbAdminTestProjectApplicationTests {
 		ChromeDriver driver = new ChromeDriver();
 		
 		driver.get(BASE_URL + "/model/tech.ailef.dbadmin.test.models.OrderLine");
-		List<WebElement> checks = driver.findElements(By.cssSelector("input[type=\"checkbox\"]"));
+		List<WebElement> checks = driver.findElements(By.cssSelector("table input[type=\"checkbox\"]"));
 		for (WebElement c : checks) {
 			assertTrue(c.getAttribute("class").contains("disable"));
 		}
