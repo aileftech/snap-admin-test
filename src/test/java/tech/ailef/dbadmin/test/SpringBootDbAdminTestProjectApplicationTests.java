@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,6 +51,30 @@ class SpringBootDbAdminTestProjectApplicationTests {
 		"Category",
 		"Tag"
 	};
+	
+	private static final String CSV_EXPORT_USERS = "id,cart_id,name,number_of_orders\n"
+			+ "24e137ba-d5b5-4ca7-aad1-5359463e0a53,9 (9),Olivia Evans,46.0\n"
+			+ "3ccff81d-9f57-44b4-b414-5dc8bed05a28,2 (2),Ethan Anderson,48.0\n"
+			+ "471620c4-d859-49cd-b17b-5a27250d44a8,6 (6),Sophia Davis,50.0\n"
+			+ "6e21105f-3d24-4ca1-9fc0-b4e688992557,10 (10),Isabella Foster,63.0\n"
+			+ "969775e5-95df-4b68-8e41-56bb781276c6,7 (7),Emily Carter,60.0\n"
+			+ "98e2386a-5510-456c-88ea-60854a590b17,8 (8),Ava Turner,61.0\n"
+			+ "ac0cf5a2-e5cf-49a7-855f-3bd2c0a79550,4 (4),Mason Parker,46.0\n"
+			+ "c07ed80f-8658-40af-b5d1-bcda05f8e115,3 (3),Lucas Johnson,50.0\n"
+			+ "d7558967-c177-40f1-8360-25c7806329df,1 (1),Benjamin Mitchell,59.0\n"
+			+ "ffd5500e-1231-48e2-8384-3dc15fc7ed90,5 (5),Oliver Williams,67.0";
+	
+	private static final String CSV_EXPORT_USERS_RAW = "id,cart_id,name,number_of_orders\n"
+			+ "24e137ba-d5b5-4ca7-aad1-5359463e0a53,9,Olivia Evans,46.0\n"
+			+ "3ccff81d-9f57-44b4-b414-5dc8bed05a28,2,Ethan Anderson,48.0\n"
+			+ "471620c4-d859-49cd-b17b-5a27250d44a8,6,Sophia Davis,50.0\n"
+			+ "6e21105f-3d24-4ca1-9fc0-b4e688992557,10,Isabella Foster,63.0\n"
+			+ "969775e5-95df-4b68-8e41-56bb781276c6,7,Emily Carter,60.0\n"
+			+ "98e2386a-5510-456c-88ea-60854a590b17,8,Ava Turner,61.0\n"
+			+ "ac0cf5a2-e5cf-49a7-855f-3bd2c0a79550,4,Mason Parker,46.0\n"
+			+ "c07ed80f-8658-40af-b5d1-bcda05f8e115,3,Lucas Johnson,50.0\n"
+			+ "d7558967-c177-40f1-8360-25c7806329df,1,Benjamin Mitchell,59.0\n"
+			+ "ffd5500e-1231-48e2-8384-3dc15fc7ed90,5,Oliver Williams,67.0";
 	
 	private static final String[] TEST_200_OK_URLS = {
 		BASE_URL + "/model/tech.ailef.dbadmin.test.models.Cart/show/1",
@@ -809,6 +834,34 @@ class SpringBootDbAdminTestProjectApplicationTests {
 		driver.get(BASE_URL + "/model/tech.ailef.dbadmin.test.models.CartItem/show/1");
 		assertEquals(true, driver.findElement(By.tagName("body")).getText().contains("404 Error"));
 		driver.close();
+	}
+	
+	@Test
+	void testExportCsv() throws IOException {
+		// Test non-raw export on User
+		String body = Jsoup.connect(BASE_URL + "/export/tech.ailef.dbadmin.test.models.User?query=&fields%5B%5D=id&"
+				+ "fields%5B%5D=cart_id&fields%5B%5D=name&fields%5B%5D=number_of_orders&format=CSV")
+				.execute().body();
+		List<String> expectedLines = Arrays.asList(CSV_EXPORT_USERS.split("\n"));
+		List<String> actualLines = Arrays.asList(body.split("\n"));
+		assertEquals(expectedLines.size(), actualLines.size());
+		
+		for (int i = 0; i < expectedLines.size(); i++) {
+			assertEquals(expectedLines.get(i).trim(), actualLines.get(i).trim());
+		}
+		
+		// Test raw export on User
+		body = Jsoup.connect(BASE_URL + "/export/tech.ailef.dbadmin.test.models.User?query=&fields%5B%5D=id&"
+				+ "fields%5B%5D=cart_id&fields%5B%5D=name&fields%5B%5D=number_of_orders&format=CSV&raw=true")
+				.execute().body();
+		
+		expectedLines = Arrays.asList(CSV_EXPORT_USERS_RAW.split("\n"));
+		actualLines = Arrays.asList(body.split("\n"));
+		assertEquals(expectedLines.size(), actualLines.size());
+		
+		for (int i = 0; i < expectedLines.size(); i++) {
+			assertEquals(expectedLines.get(i).trim(), actualLines.get(i).trim());
+		}
 	}
 }
 
