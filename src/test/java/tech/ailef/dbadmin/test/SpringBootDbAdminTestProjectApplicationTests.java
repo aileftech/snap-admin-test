@@ -863,6 +863,14 @@ class SpringBootDbAdminTestProjectApplicationTests {
 			assertEquals(expectedLines.get(i).trim(), actualLines.get(i).trim());
 		}
 	}
+	
+	@Test
+	void testDisableExport() throws IOException {
+		String body = Jsoup.connect(BASE_URL + "/export/tech.ailef.dbadmin.test.models.User?query=&fields%5B%5D=id&format=CSV")
+			.execute().body();
+		assertEquals(true, body.contains("Export is not enabled for this table"));
+		
+	}
 }
 
 
