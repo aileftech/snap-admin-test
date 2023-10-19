@@ -5,9 +5,11 @@ import java.util.List;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import tech.ailef.dbadmin.external.annotations.DisableExport;
 import tech.ailef.dbadmin.external.annotations.DisplayName;
 
 @Entity
+@DisableExport
 public class Category {
 	@Id
 	private Long id;

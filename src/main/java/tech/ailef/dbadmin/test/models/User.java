@@ -12,13 +12,11 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import tech.ailef.dbadmin.external.annotations.ComputedColumn;
-import tech.ailef.dbadmin.external.annotations.DisableExport;
 import tech.ailef.dbadmin.external.annotations.DisplayName;
 import tech.ailef.dbadmin.external.annotations.HiddenColumn;
 
 @Entity
 @Table(name="users")
-@DisableExport
 public class User {
 	@Id
 	@UuidGenerator
