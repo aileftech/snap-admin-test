@@ -76,6 +76,17 @@ class SpringBootDbAdminTestProjectApplicationTests {
 			+ "d7558967-c177-40f1-8360-25c7806329df,1,Benjamin Mitchell,59.0\n"
 			+ "ffd5500e-1231-48e2-8384-3dc15fc7ed90,5,Oliver Williams,67.0";
 	
+	private static final String CSV_EXPORT_USERS_JSONL = "{\"cart_id\":\"9 (9)\",\"name\":\"Olivia Evans\",\"number_of_orders\":46.0,\"id\":\"24e137ba-d5b5-4ca7-aad1-5359463e0a53\"}\n"
+			+ "{\"cart_id\":\"2 (2)\",\"name\":\"Ethan Anderson\",\"number_of_orders\":48.0,\"id\":\"3ccff81d-9f57-44b4-b414-5dc8bed05a28\"}\n"
+			+ "{\"cart_id\":\"6 (6)\",\"name\":\"Sophia Davis\",\"number_of_orders\":50.0,\"id\":\"471620c4-d859-49cd-b17b-5a27250d44a8\"}\n"
+			+ "{\"cart_id\":\"10 (10)\",\"name\":\"Isabella Foster\",\"number_of_orders\":63.0,\"id\":\"6e21105f-3d24-4ca1-9fc0-b4e688992557\"}\n"
+			+ "{\"cart_id\":\"7 (7)\",\"name\":\"Emily Carter\",\"number_of_orders\":60.0,\"id\":\"969775e5-95df-4b68-8e41-56bb781276c6\"}\n"
+			+ "{\"cart_id\":\"8 (8)\",\"name\":\"Ava Turner\",\"number_of_orders\":61.0,\"id\":\"98e2386a-5510-456c-88ea-60854a590b17\"}\n"
+			+ "{\"cart_id\":\"4 (4)\",\"name\":\"Mason Parker\",\"number_of_orders\":46.0,\"id\":\"ac0cf5a2-e5cf-49a7-855f-3bd2c0a79550\"}\n"
+			+ "{\"cart_id\":\"3 (3)\",\"name\":\"Lucas Johnson\",\"number_of_orders\":50.0,\"id\":\"c07ed80f-8658-40af-b5d1-bcda05f8e115\"}\n"
+			+ "{\"cart_id\":\"1 (1)\",\"name\":\"Benjamin Mitchell\",\"number_of_orders\":59.0,\"id\":\"d7558967-c177-40f1-8360-25c7806329df\"}\n"
+			+ "{\"cart_id\":\"5 (5)\",\"name\":\"Oliver Williams\",\"number_of_orders\":67.0,\"id\":\"ffd5500e-1231-48e2-8384-3dc15fc7ed90\"}";
+	
 	private static final String[] TEST_200_OK_URLS = {
 		BASE_URL + "/model/tech.ailef.dbadmin.test.models.Cart/show/1",
 		BASE_URL + "/model/tech.ailef.dbadmin.test.models.Product/show/1",
@@ -287,6 +298,15 @@ class SpringBootDbAdminTestProjectApplicationTests {
 		}
 
 		assertEquals(userData.size(), foundFields);
+		
+		// Set the user back to the original name; otherwise this might result
+		// in the export CSV test failing if it's executed after this one
+		driver.get(BASE_URL + "/model/tech.ailef.dbadmin.test.models.User/edit/24e137ba-d5b5-4ca7-aad1-5359463e0a53");
+		nameElement = driver.findElement(By.cssSelector("input[name=\"name\"]"));
+		nameElement.clear();
+		nameElement.sendKeys("Olivia Evans");
+		
+		driver.findElement(By.cssSelector("input[type=\"submit\"]")).click();
 		
 		driver.close();
 	}
@@ -864,6 +884,26 @@ class SpringBootDbAdminTestProjectApplicationTests {
 		}
 	}
 	
+	
+	/**
+	 * Tests that the export JSON data is correct.
+	 * @throws IOException 
+	 */
+	@Test
+	void testExportJsonl() throws IOException {
+		// Test non-raw export on User
+		String body = Jsoup.connect(BASE_URL + "/export/tech.ailef.dbadmin.test.models.User?query=&fields%5B%5D=id&"
+				+ "fields%5B%5D=cart_id&fields%5B%5D=name&fields%5B%5D=number_of_orders&format=JSONL")
+				.execute().body();
+		
+		List<String> expectedLines = Arrays.asList(CSV_EXPORT_USERS_JSONL.split("\n"));
+		List<String> actualLines = Arrays.asList(body.split("\n"));
+		assertEquals(expectedLines.size(), actualLines.size());
+		for (int i = 0; i < expectedLines.size(); i++) {
+			assertEquals(expectedLines.get(i).trim(), actualLines.get(i).trim());
+		}
+	}
+	
 	@Test
 	void testDisableExport() throws IOException {
 		String body = Jsoup.connect(BASE_URL + "/export/tech.ailef.dbadmin.test.models.Category?query=&fields%5B%5D=id&format=CSV")
@@ -871,6 +911,25 @@ class SpringBootDbAdminTestProjectApplicationTests {
 		assertEquals(true, body.contains("Export is not enabled for this table"));
 		
 	}
+
+	/**
+	 * Tests that setting the wrong cart_id for a user returns an error.
+	 */
+	@Test
+	void testEditUser() {
+		ChromeDriver driver = new ChromeDriver();
+		
+		driver.get(BASE_URL + "/model/tech.ailef.dbadmin.test.models.User/edit/24e137ba-d5b5-4ca7-aad1-5359463e0a53");
+		driver.findElement(By.cssSelector("input[name=\"cart_id\"]")).clear();
+		driver.findElement(By.cssSelector("input[name=\"cart_id\"]")).sendKeys("111");
+		driver.findElement(By.cssSelector("input[type=\"submit\"]")).click();
+		
+		WebElement alert = driver.findElement(By.cssSelector(".alert-danger"));
+		assertEquals("Invalid value 111 for cart_id: item does not exist.", alert.findElement(By.tagName("p")).getText());
+		
+		driver.close();
+	}
+
 }
 
 
