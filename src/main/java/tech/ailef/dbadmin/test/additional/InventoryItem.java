@@ -1,5 +1,6 @@
 package tech.ailef.dbadmin.test.additional;
 
+import java.time.Instant;
 import java.util.Calendar;
 
 import jakarta.persistence.Entity;
@@ -19,6 +20,8 @@ public class InventoryItem {
 	private Boolean available;
 	
 	private Calendar createdAt;
+	
+	private Instant updatedAt;
 
 	public String getId() {
 		return id;
@@ -52,6 +55,11 @@ public class InventoryItem {
 		this.createdAt = createdAt;
 	}
 	
+	public Instant getUpdatedAt() {
+		return updatedAt;
+	}
 	
-	
+	public void setUpdatedAt(Instant updatedAt) {
+		this.updatedAt = updatedAt;
+	}
 }

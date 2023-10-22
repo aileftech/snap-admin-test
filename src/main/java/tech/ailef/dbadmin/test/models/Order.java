@@ -1,5 +1,6 @@
 package tech.ailef.dbadmin.test.models;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -27,6 +28,8 @@ public class Order {
 	
 	@Filterable
 	private LocalDate createdAt;
+	
+	private Instant completedAt;
 
 	public Long getId() {
 		return id;
@@ -60,6 +63,14 @@ public class Order {
 		this.createdAt = createdAt;
 	}
 	
+	public Instant getCompletedAt() {
+		return completedAt;
+	}
+
+	public void setCompletedAt(Instant completedAt) {
+		this.completedAt = completedAt;
+	}
+
 	@ComputedColumn(name="total_value")
 	public double total() {
 		double total = 0;
