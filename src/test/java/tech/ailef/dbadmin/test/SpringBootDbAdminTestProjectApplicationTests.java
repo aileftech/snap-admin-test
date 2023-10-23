@@ -942,10 +942,32 @@ class SpringBootDbAdminTestProjectApplicationTests {
 		driver.findElement(By.cssSelector("textarea[name=\"query\"]")).clear();
 		driver.findElement(By.cssSelector("textarea[name=\"query\"]")).sendKeys("SELECT * FROM products WHERE created_at IS NOT NULL;");
 		driver.findElement(By.cssSelector("input[type=\"submit\"]")).click();
-		
 		WebElement table = driver.findElement(By.tagName("table"));
 		List<WebElement> rows = table.findElements(By.tagName("tr"));
 		assertEquals(10, rows.size());
+		
+		driver.findElement(By.cssSelector("textarea[name=\"query\"]")).clear();
+		driver.findElement(By.cssSelector("textarea[name=\"query\"]")).sendKeys("SELECT * FROM orders;");
+		driver.findElement(By.cssSelector("input[type=\"submit\"]")).click();
+		table = driver.findElement(By.tagName("table"));
+		rows = table.findElements(By.tagName("tr"));
+		assertEquals(51, rows.size());
+		
+		driver.get(BASE_URL + "/console/new");
+		driver.findElement(By.cssSelector("input[name=\"queryTitle\"]")).clear();
+		driver.findElement(By.cssSelector("input[name=\"queryTitle\"]")).sendKeys("Test Query Title");
+		driver.findElement(By.cssSelector("textarea[name=\"query\"]")).clear();
+		driver.findElement(By.cssSelector("textarea[name=\"query\"]")).sendKeys("SELECT * FROM order_line;");
+		driver.findElement(By.cssSelector("input[type=\"submit\"]")).click();
+		table = driver.findElement(By.tagName("table"));
+		rows = table.findElements(By.tagName("tr"));
+		assertEquals(51, rows.size());
+		
+		String titleValue = driver.findElement(By.cssSelector("input[name=\"queryTitle\"]")).getAttribute("value");
+		assertEquals(titleValue, "Test Query Title");
+		
+		// Asset there are 2 query tabs
+		assertEquals(2, driver.findElements(By.cssSelector(".query-tab")).size());
 		
 		driver.close();
 	}
