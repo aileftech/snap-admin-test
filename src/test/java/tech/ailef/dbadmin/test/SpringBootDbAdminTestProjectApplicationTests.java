@@ -930,6 +930,26 @@ class SpringBootDbAdminTestProjectApplicationTests {
 		driver.close();
 	}
 
+	
+	/**
+	 * Test execute query on SQL console
+	 */
+	@Test
+	void testSqlConsole() {
+		ChromeDriver driver = new ChromeDriver();
+		
+		driver.get(BASE_URL + "/console");
+		driver.findElement(By.cssSelector("textarea[name=\"query\"]")).clear();
+		driver.findElement(By.cssSelector("textarea[name=\"query\"]")).sendKeys("SELECT * FROM products WHERE created_at IS NOT NULL;");
+		driver.findElement(By.cssSelector("input[type=\"submit\"]")).click();
+		
+		WebElement table = driver.findElement(By.tagName("table"));
+		List<WebElement> rows = table.findElements(By.tagName("tr"));
+		assertEquals(10, rows.size());
+		
+		driver.close();
+	}
+	
 }
 
 
