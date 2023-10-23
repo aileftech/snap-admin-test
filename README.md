@@ -60,3 +60,7 @@ To execute the tests for this application, make sure the application is running,
 
 ```shell
 mvn test
+```
+
+Make sure you are running on a "clean" instance of the database, i.e. you have not changed its content as it could otherwise interfere with the
+correct execution of the tests.
