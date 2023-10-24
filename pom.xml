@@ -11,7 +11,7 @@
 	</parent>
 	<groupId>tech.ailef</groupId>
 	<artifactId>spring-boot-db-admin-test-project</artifactId>
-	<version>0.1.7</version>
+	<version>0.1.8</version>
 	<name>spring-boot-db-admin-test-project</name>
 	<description>Srping Boot DB Admin Dashboard</description>
 	<properties>
@@ -23,7 +23,6 @@
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-java</artifactId>
-			<version>4.12.1</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.jsoup/jsoup -->
 		<dependency>
@@ -60,7 +59,7 @@
 		<dependency>
 			<groupId>tech.ailef</groupId>
 			<artifactId>spring-boot-db-admin</artifactId>
-			<version>0.1.7</version>
+			<version>0.1.8</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
