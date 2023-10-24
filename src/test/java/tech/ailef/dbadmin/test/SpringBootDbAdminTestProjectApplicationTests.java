@@ -972,6 +972,16 @@ class SpringBootDbAdminTestProjectApplicationTests {
 		driver.close();
 	}
 	
+	@Test
+	void testDisabledEntity() {
+		ChromeDriver driver = new ChromeDriver();
+		
+		driver.get(BASE_URL);
+		WebElement body = driver.findElement(By.cssSelector("body"));
+		assertEquals(false, body.getText().contains("ignored_entity"));
+		
+		driver.close();
+	}
 }
 
 
