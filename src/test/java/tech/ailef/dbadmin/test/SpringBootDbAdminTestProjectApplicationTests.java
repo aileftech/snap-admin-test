@@ -205,6 +205,7 @@ class SpringBootDbAdminTestProjectApplicationTests {
 		productData.put("name", "Test product");
 		productData.put("price", "67.99");
 		productData.put("eco_friendly", "true");
+		productData.put("status", "AVAILABLE");
 		
 		driver.get(BASE_URL + "/model/tech.ailef.dbadmin.test.models.Product/create");
 		
@@ -513,7 +514,7 @@ class SpringBootDbAdminTestProjectApplicationTests {
 			
 			if (klass.endsWith("Product")) {
 				String[] colValues = 
-					{"1", "iPhone 12", "$699.99", "2022-07-01T10:00:01", "Apple iPhone 12 with 64GB Memory", "true", "NULL", "Download"};
+					{"1", "iPhone 12", "$699.99", "2022-07-01T10:00:01", "Apple iPhone 12 with 64GB Memory", "true", "NULL", "NULL", "Download"};
 				logger.info("Testing: " + showUrl);
 
 				Document document = Jsoup.parse(Jsoup.connect(showUrl).execute().body());

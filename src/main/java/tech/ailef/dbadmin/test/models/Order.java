@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
@@ -30,6 +32,9 @@ public class Order {
 	private LocalDate createdAt;
 	
 	private Instant completedAt;
+	
+	@Enumerated(EnumType.ORDINAL)
+	private OrderStatus status;
 
 	public Long getId() {
 		return id;
@@ -69,6 +74,14 @@ public class Order {
 
 	public void setCompletedAt(Instant completedAt) {
 		this.completedAt = completedAt;
+	}
+
+	public OrderStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(OrderStatus status) {
+		this.status = status;
 	}
 
 	@ComputedColumn(name="total_value")

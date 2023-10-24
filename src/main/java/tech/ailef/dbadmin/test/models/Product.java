@@ -6,6 +6,8 @@ import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToMany;
@@ -66,6 +68,9 @@ public class Product {
 	
 	@OneToMany(mappedBy = "product")
 	private List<OrderLine> orderLines;
+	
+	@Enumerated(EnumType.STRING)
+	private ProductStatus status;
 
 	@DisplayName
 	public String getDisplayName() {
@@ -168,7 +173,22 @@ public class Product {
 		this.thumbnailImage = thumbnailImage;
 	}
 	
-	
+	public void setEcoFriendly(Boolean ecoFriendly) {
+		this.ecoFriendly = ecoFriendly;
+	}
+
+	public ProductStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(ProductStatus status) {
+		this.status = status;
+	}
+
+	public void setOrderLines(List<OrderLine> orderLines) {
+		this.orderLines = orderLines;
+	}
+
 	@Override
 	public String toString() {
 		return "Product [id=" + id + ", name=" + name + ", description=" + description + ", price=" + price + ", image="
