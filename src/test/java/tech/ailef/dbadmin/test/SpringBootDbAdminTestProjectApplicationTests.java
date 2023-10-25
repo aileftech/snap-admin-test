@@ -205,7 +205,6 @@ class SpringBootDbAdminTestProjectApplicationTests {
 		productData.put("name", "Test product");
 		productData.put("price", "67.99");
 		productData.put("eco_friendly", "true");
-		productData.put("status", "AVAILABLE");
 		
 		driver.get(BASE_URL + "/model/tech.ailef.dbadmin.test.models.Product/create");
 		
