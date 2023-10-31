@@ -298,7 +298,7 @@ INSERT INTO order_line (id, order_id, price, quantity, product_id) VALUES (500, 
 INSERT INTO order_line (id, order_id, price, quantity, product_id) VALUES (501, 501, 638.9118748267474, 1, 57);
 INSERT INTO orders (id, user_id, created_at) VALUES (502, '471620c4-d859-49cd-b17b-5a27250d44a8', '2020-05-29');
 INSERT INTO order_line (id, order_id, price, quantity, product_id) VALUES (502, 502, 147.9260831101059, 1, 51);
-INSERT INTO orders (id, user_id, created_at) VALUES (503, '969775e5-95df-4b68-8e41-56bb781276c6', '2022-02-20');
+INSERT INTO orders (id, user_id, created_at, status) VALUES (503, '969775e5-95df-4b68-8e41-56bb781276c6', '2022-02-20', 1);
 INSERT INTO order_line (id, order_id, price, quantity, product_id) VALUES (503, 503, 386.4734534530639, 1, 67);
 INSERT INTO orders (id, user_id, created_at) VALUES (504, 'ffd5500e-1231-48e2-8384-3dc15fc7ed90', '2022-07-09');
 INSERT INTO order_line (id, order_id, price, quantity, product_id) VALUES (504, 504, 267.0057284119715, 1, 53);

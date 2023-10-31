@@ -34,6 +34,7 @@ public class Order {
 	private Instant completedAt;
 	
 	@Enumerated(EnumType.ORDINAL)
+	@Filterable
 	private OrderStatus status;
 
 	public Long getId() {

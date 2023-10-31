@@ -12,7 +12,6 @@ import tech.ailef.dbadmin.external.DbAdminAutoConfiguration;
 public class SpringBootDbAdminTestProjectApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SpringBootDbAdminTestProjectApplication.class, args);
-		
 	}
 
 }

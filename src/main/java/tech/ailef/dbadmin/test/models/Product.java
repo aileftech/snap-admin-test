@@ -70,6 +70,7 @@ public class Product {
 	private List<OrderLine> orderLines;
 	
 	@Enumerated(EnumType.STRING)
+	@Filterable(type=FilterableType.CATEGORICAL)
 	private ProductStatus status;
 
 	@DisplayName
