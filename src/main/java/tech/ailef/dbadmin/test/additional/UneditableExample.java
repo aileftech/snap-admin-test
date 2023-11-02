@@ -6,7 +6,7 @@ import java.sql.Date;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import tech.ailef.dbadmin.external.annotations.DisableEdit;
+import tech.ailef.snapadmin.external.annotations.DisableEdit;
 
 @Entity
 @Table(name="uneditable")

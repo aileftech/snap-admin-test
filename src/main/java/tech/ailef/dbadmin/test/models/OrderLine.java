@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-import tech.ailef.dbadmin.external.annotations.DisableDelete;
+import tech.ailef.snapadmin.external.annotations.DisableDelete;
 
 @Entity
 @DisableDelete

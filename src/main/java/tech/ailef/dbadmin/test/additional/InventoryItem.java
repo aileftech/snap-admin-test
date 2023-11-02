@@ -6,7 +6,7 @@ import java.util.Calendar;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import tech.ailef.dbadmin.external.annotations.DisableCreate;
+import tech.ailef.snapadmin.external.annotations.DisableCreate;
 
 @Entity
 @Table(name="inventory")

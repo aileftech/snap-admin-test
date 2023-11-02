@@ -5,8 +5,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-import tech.ailef.dbadmin.external.annotations.Filterable;
-import tech.ailef.dbadmin.external.annotations.FilterableType;
+import tech.ailef.snapadmin.external.annotations.Filterable;
+import tech.ailef.snapadmin.external.annotations.FilterableType;
 
 @Entity
 public class CartItem {

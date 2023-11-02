@@ -2,7 +2,7 @@ package tech.ailef.dbadmin.test.models;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import tech.ailef.dbadmin.external.annotations.Disable;
+import tech.ailef.snapadmin.external.annotations.Disable;
 
 @Entity
 @Disable

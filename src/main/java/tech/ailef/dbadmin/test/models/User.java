@@ -11,9 +11,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import tech.ailef.dbadmin.external.annotations.ComputedColumn;
-import tech.ailef.dbadmin.external.annotations.DisplayName;
-import tech.ailef.dbadmin.external.annotations.HiddenColumn;
+import tech.ailef.snapadmin.external.annotations.ComputedColumn;
+import tech.ailef.snapadmin.external.annotations.DisplayName;
+import tech.ailef.snapadmin.external.annotations.HiddenColumn;
 
 @Entity
 @Table(name="users")

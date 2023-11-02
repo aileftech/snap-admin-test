@@ -13,12 +13,12 @@ import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import tech.ailef.dbadmin.external.annotations.DisplayFormat;
-import tech.ailef.dbadmin.external.annotations.DisplayImage;
-import tech.ailef.dbadmin.external.annotations.DisplayName;
-import tech.ailef.dbadmin.external.annotations.Filterable;
-import tech.ailef.dbadmin.external.annotations.FilterableType;
-import tech.ailef.dbadmin.external.annotations.ReadOnly;
+import tech.ailef.snapadmin.external.annotations.DisplayFormat;
+import tech.ailef.snapadmin.external.annotations.DisplayImage;
+import tech.ailef.snapadmin.external.annotations.DisplayName;
+import tech.ailef.snapadmin.external.annotations.Filterable;
+import tech.ailef.snapadmin.external.annotations.FilterableType;
+import tech.ailef.snapadmin.external.annotations.ReadOnly;
 
 @Entity
 @Table(name="products")
@@ -30,23 +30,23 @@ public class Product {
 	@Column(nullable = false)
 	private String name;
 	
-	@Filterable
-	@Lob
-	private String description;
-	
 	@DisplayFormat(format = "$%.2f")
 	@Filterable
 	@Column(nullable = false)
 	private Double price;
-	
-	@Filterable
-	@ReadOnly
-	private LocalDateTime createdAt;
-	
+
 	@Lob
 	@DisplayImage
 	@Column(length = 1048576*4)
 	private byte[] image;
+	
+	@Filterable
+	@Lob
+	private String description;
+		
+	@Filterable
+	@ReadOnly
+	private LocalDateTime createdAt;
 	
 	@Lob
 	@Column(length = 1048576*4)

@@ -5,10 +5,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import tech.ailef.dbadmin.external.DbAdminAutoConfiguration;
+import tech.ailef.snapadmin.external.SnapAdminAutoConfiguration;
 
 @SpringBootApplication
-@ImportAutoConfiguration(DbAdminAutoConfiguration.class)
+@ImportAutoConfiguration(SnapAdminAutoConfiguration.class)
 public class SpringBootDbAdminTestProjectApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SpringBootDbAdminTestProjectApplication.class, args);
