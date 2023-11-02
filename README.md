@@ -1,11 +1,11 @@
-# Spring Boot Admin Panel - Test project
+# SnapAdmin - Test project
 
-This is a sample project used for testing [spring-boot-database-admin](https://github.com/aileftech/spring-boot-database-admin).
+This is a sample project used for testing [snap-admin](https://github.com/aileftech/snap-admin).
 This same code with slight variations is also used to run the live-demo at http://dbadmin.ailef.tech/admin (when it's up).
 
 This repo contains:
  * A basic Spring Boot app with entity definitions and an `import.sql` file that creates a sample database
- * End-to-end tests performed with Selenium on the Spring Boot Database Admin web interface, using the data from the sample database
+ * End-to-end tests performed with Selenium on the SnapAdmin web interface, using the data from the sample database
 
 The repo doesn't contain contollers, repositories, etc... because everything is generated at runtime.
 
@@ -25,12 +25,12 @@ to use Docker, you will need to customize the `application.properties` file in o
   - Clone the Repository.
 
     ```sh
-    git clone https://github.com/aileftech/spring-boot-database-admin.git
+    git clone https://github.com/aileftech/snap-admin-test
     ```
   - Navigate to the Repository Folder.
 
     ```sh
-    cd spring-boot-database-admin-test
+    cd snap-admin-test
     ```
   - Create & Run Docker Container: 
         
