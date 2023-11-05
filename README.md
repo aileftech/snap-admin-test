@@ -10,10 +10,10 @@ Each folder contains a project consisting of a Spring Boot + SnapAdmin applicati
 
 At the moment, these are the available projects:
 
-* snap-admin-test-main: The main SnapAdmin project which shows how to use most of the features and also contains
+* main: The main SnapAdmin project which shows how to use most of the features and also contains
 most of the tests. Also used to power the live demo.
 
-* snap-admin-test-auth: A sample SnapAdmin projects which includes the implementation of a Spring Security
+* auth: A sample SnapAdmin projects which includes the implementation of a Spring Security
 configuration to protect SnapAdmin with authentication/authorization.
 
 
@@ -40,10 +40,10 @@ to use Docker, you will need to customize the `application.properties` file in o
     ```sh
     git clone https://github.com/aileftech/snap-admin-test
     ```
-  - Navigate to the project folder inside the repo, e.g. 'snap-admin-test-auth'
+  - Navigate to the project folder inside the repo, e.g. 'auth'
 
     ```sh
-    cd snap-admin-test/snap-admin-test-auth
+    cd snap-admin-test/auth
     ```
   - Create & Run Docker Container: 
         
