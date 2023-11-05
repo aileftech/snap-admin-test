@@ -1,0 +1,65 @@
+package tech.ailef.snapadmin.test.additional;
+
+import java.time.Instant;
+import java.util.Calendar;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import tech.ailef.snapadmin.external.annotations.DisableCreate;
+
+@Entity
+@Table(name="inventory")
+@DisableCreate
+public class InventoryItem {
+	@Id
+	private String id;
+	
+	private String name;
+	
+	private Boolean available;
+	
+	private Calendar createdAt;
+	
+	private Instant updatedAt;
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Boolean isAvailable() {
+		return available;
+	}
+
+	public void setAvailable(Boolean available) {
+		this.available = available;
+	}
+
+	public Calendar getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Calendar createdAt) {
+		this.createdAt = createdAt;
+	}
+	
+	public Instant getUpdatedAt() {
+		return updatedAt;
+	}
+	
+	public void setUpdatedAt(Instant updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+}
