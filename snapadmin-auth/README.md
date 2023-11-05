@@ -1,13 +1,10 @@
-# SnapAdmin - Test project
+# SnapAdmin - Auth Test project
 
-This is a sample project used for testing [snap-admin](https://github.com/aileftech/snap-admin).
-This same code with slight variations is also used to run the live-demo at http://dbadmin.ailef.tech/admin (when it's up).
+This is a sample project containing a blueprint on how to implement a Spring Security configuration for [SnapAdmin](https://github.com/aileftech/snap-admin).
 
 This repo contains:
- * A basic Spring Boot app with entity definitions and an `import.sql` file that creates a sample database
- * End-to-end tests performed with Selenium on the SnapAdmin web interface, using the data from the sample database
-
-The repo doesn't contain contollers, repositories, etc... because everything is generated at runtime.
+ * A basic Spring Boot app with entity definitions and an `import.sql` file that creates a sample database, including users and roles
+ * End-to-end tests performed with Selenium on the SnapAdmin web interface, to check that the routes are protected properly
 
 ## 📋 Prerequisites
 Before you begin running this project, please ensure that you have the following software and tools installed:
@@ -52,6 +49,8 @@ to use Docker, you will need to customize the `application.properties` file in o
 Once the application is up and running, you can access the admin interface by opening your web browser and navigating to the following URL:
 
 [http://localhost:8080/admin](http://localhost:8080/admin)
+
+You will be prompted with a login screen
 
 
 ## 📝 Tests
