@@ -10,10 +10,10 @@ Each folder contains a project consisting of a Spring Boot + SnapAdmin applicati
 
 At the moment, these are the available projects:
 
-* snapadmin-test: The main SnapAdmin project which shows how to use most of the features and also contains
+* snapadmin-test-main: The main SnapAdmin project which shows how to use most of the features and also contains
 most of the tests. Also used to power the live demo.
 
-* snapadmin-recipe-auth: A sample SnapAdmin projects which includes the implementation of a Spring Security
+* snapadmin-test-auth: A sample SnapAdmin projects which includes the implementation of a Spring Security
 configuration to protect SnapAdmin with authentication/authorization.
 
 Each project has its own README containing detailed instructions on how to run and test.
