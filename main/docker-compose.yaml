@@ -3,7 +3,7 @@ version: '3.8'
 services:
 
   db:
-    container_name: aileftech-mysql
+    container_name: snapadmin-test-main
     image: mysql:latest
 
     volumes:
