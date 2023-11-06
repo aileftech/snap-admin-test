@@ -8,11 +8,14 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import tech.ailef.snapadmin.auth.models.User;
 import tech.ailef.snapadmin.auth.models.Role;
+import tech.ailef.snapadmin.auth.models.User;
 
 public class DatabaseUserDetails implements UserDetails {
+	private static final long serialVersionUID = -3638549539102537180L;
+	
 	private final Integer id;
+	
 	private final String username;
 	
 	private final String password;

@@ -9,9 +9,9 @@ import tech.ailef.snapadmin.external.SnapAdminAutoConfiguration;
 
 @SpringBootApplication
 @ImportAutoConfiguration(SnapAdminAutoConfiguration.class)
-public class SpringBootDbAdminTestProjectApplication {
+public class SnapAdminAuthTestProjectApplication {
 	public static void main(String[] args) {
-		SpringApplication.run(SpringBootDbAdminTestProjectApplication.class, args);
+		SpringApplication.run(SnapAdminAuthTestProjectApplication.class, args);
 	}
 
 }
