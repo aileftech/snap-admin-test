@@ -31,13 +31,13 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class SpringBootDbAdminTestProjectApplicationTests {
+class SnapAdminTestProjectApplicationTests {
 	
 	private static final String MODELS_PACKAGE = "tech.ailef.snapadmin.test.models";
 	
 	private static final String ADDITIONAL_MODELS_PACKAGE = "tech.ailef.snapadmin.test.additional";
 
-	private static final Logger logger = Logger.getLogger(SpringBootDbAdminTestProjectApplicationTests.class.getName());
+	private static final Logger logger = Logger.getLogger(SnapAdminTestProjectApplicationTests.class.getName());
 	
 	private static final String DBADMIN_ROOT_PATH = "/admin";
 	
