@@ -983,7 +983,21 @@ class SnapAdminTestProjectApplicationTests {
 		
 		driver.close();
 	}
+
 	
+	/**
+	 * Tests the the element with id "auth-warning" appears 
+	 * in the home page, since this project runs without Spring Security set up
+	 */
+	@Test
+	void testNoAuthWarning() {
+		ChromeDriver driver = new ChromeDriver();
+		
+		driver.get(BASE_URL);
+		assertDoesNotThrow(() -> driver.findElement(By.cssSelector("#auth-warning")));
+		
+		driver.close();
+	}
 }
 
 
