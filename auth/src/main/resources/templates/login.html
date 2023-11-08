@@ -1,22 +1,69 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
-	<head>
-		<title>Please Log In</title>
-	</head>
-	<body>
-		<h1>Please Log In</h1>
-		<div th:if="${param.error}">
-			Invalid username and password.</div>
-		<div th:if="${param.logout}">
-			You have been logged out.</div>
-		<form th:action="@{/login}" method="post">
-			<div>
-			<input type="text" name="username" placeholder="Username"/>
-			</div>
-			<div>
-			<input type="password" name="password" placeholder="Password"/>
-			</div>
-			<input type="submit" value="Log in" />
-		</form>
-	</body>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Page</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css">
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+    .login-container {
+      max-width: 400px;
+      margin: 0 auto;
+      margin-top: 100px;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    .login-container h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #007fd0;
+    }
+    .login-container .form-control {
+      border-color: #007fd0;
+    }
+    .login-container .btn-primary {
+      background-color: #007fd0;
+      border-color: #007fd0;
+    }
+    .login-container .btn-primary:hover {
+      background-color: #006bb3;
+      border-color: #006bb3;
+    }
+    .login-container .forgot-password {
+      text-align: center;
+      margin-top: 10px;
+    }
+    .login-container .forgot-password a {
+      color: #007fd0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="login-container">
+      <h2>Login</h2>
+      <form th:action="@{/login}" method="POST">
+        <div class="mb-3">
+          <label for="username" class="form-label">Username</label>
+          <input type="text" class="form-control" id="username" name="username" placeholder="Enter your username">
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">Password</label>
+          <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password">
+        </div>
+        <button type="submit" class="btn btn-primary">Login</button>
+        <div class="forgot-password">
+          <a href="#">Forgot password?</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>
