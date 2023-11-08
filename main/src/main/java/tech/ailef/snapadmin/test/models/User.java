@@ -1,6 +1,6 @@
 package tech.ailef.snapadmin.test.models;
 
-import java.util.List;
+import java.util.Set;
 
 import org.hibernate.annotations.UuidGenerator;
 
@@ -33,7 +33,7 @@ public class User {
 	private Cart cart;
 	
 	@OneToMany(mappedBy = "user")
-	private List<Order> orders;
+	private Set<Order> orders;
 
 	public String getId() {
 		return id;
@@ -60,11 +60,11 @@ public class User {
 		this.cart = cart;
 	}
 	
-	public List<Order> getOrders() {
+	public Set<Order> getOrders() {
 		return orders;
 	}
 	
-	public void setOrders(List<Order> orders) {
+	public void setOrders(Set<Order> orders) {
 		this.orders = orders;
 	}
 
