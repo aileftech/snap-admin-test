@@ -1,4 +1,4 @@
-package tech.ailef.snapadmin.auth;
+package tech.ailef.snapadmin.auth.security;
 
 import java.util.Collection;
 import java.util.HashSet;

@@ -1,4 +1,4 @@
-package tech.ailef.snapadmin.auth;
+package tech.ailef.snapadmin.auth.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
