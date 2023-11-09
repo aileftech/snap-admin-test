@@ -10,7 +10,7 @@ services:
       - mysql_data_volume:/var/lib/mysql
     restart: always
     environment:
-      MYSQL_DATABASE : sbdap
+      MYSQL_DATABASE : snapadmin_test_main
       MYSQL_USERNAME : root
       MYSQL_ROOT_PASSWORD: test@123
     ports:
