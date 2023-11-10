@@ -998,6 +998,37 @@ class SnapAdminTestProjectApplicationTests {
 		
 		driver.close();
 	}
+	
+	/**
+	 * Tests that the Delete button in the SQL console page
+	 * works properly after confirming the delete prompt.
+	 * @throws InterruptedException 
+	 */
+	@Test
+	void testDeleteSqlConsole() throws InterruptedException {
+		ChromeDriver driver = new ChromeDriver();
+		
+		driver.get(BASE_URL + "/console/new");
+		
+		
+		String currentUrl = driver.getCurrentUrl();
+		String[] parts = currentUrl.split("/");
+		String queryId = parts[parts.length  - 1];
+		
+		driver.findElement(By.id("console-delete-btn")).click();
+		Thread.sleep(100);
+		Alert alert = driver.switchTo().alert();
+		alert.accept();
+		
+		// Check that after the delete the previous query id returns 404
+		driver.get(BASE_URL + "/console/run/" + queryId);
+		WebElement body = driver.findElement(By.cssSelector("body"));
+		assertEquals(true, body.getText().contains("404 Error"));
+		
+		
+		
+		driver.close();
+	}
 }
 
 
